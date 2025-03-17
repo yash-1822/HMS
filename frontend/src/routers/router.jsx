@@ -18,22 +18,46 @@
 // export default AppRouter;
 
 
+// import { createBrowserRouter } from "react-router-dom";
+// import App from "../App";
+// import HomePage from "../pages/mainHomePage";
+// import Appointment from "../components/Appointment";
+// import HospitalBody from "../pages/hospitalBody";
+
+
+
+// export const router = createBrowserRouter([
+//   {
+//     path: '/',
+//     element: <App />,
+//     children: [
+//       { path: '/', element: <HomePage/> },
+//       {path: '/hospital/:id', element:<HomePage/>},
+//       {path:'/hospital/:id/hospitalBody',element:<HospitalBody/>}
+//     ]
+//   }
+// ]);
+
+
+
 import { createBrowserRouter } from "react-router-dom";
 import App from "../App";
 import HomePage from "../pages/mainHomePage";
 import Appointment from "../components/Appointment";
 import HospitalBody from "../pages/hospitalBody";
-
-
+import Registration from "../pages/RegistrationPage";
+import LoginPage from "../pages/LoginPage"; // Import Login Page
 
 export const router = createBrowserRouter([
   {
-    path: '/',
+    path: "/",
     element: <App />,
     children: [
-      { path: '/', element: <HomePage/> },
-      {path: '/hospital/:id', element:<HomePage/>},
-      {path:'/hospital/:id/hospitalBody',element:<HospitalBody/>}
-    ]
-  }
+      { path: "/", element: <HomePage /> },
+      { path: "/hospital/:id", element: <HomePage /> },
+      { path: "/hospital/:id/hospitalBody", element: <HospitalBody /> },
+      { path: "/login", element:<LoginPage/> }, // Add the login page
+      { path: "/Registration", element:<Registration/>  },
+    ],
+  },
 ]);

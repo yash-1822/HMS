@@ -17,13 +17,13 @@ const Carousel = () => {
     <div className="w-full overflow-hidden bg-blue-50 py-8">
       <div className="max-w-screen-xl mx-auto">
         <Slider {...settings}>
-          <div className="w-full h-[100px] sm:h-[100px] lg:h-[100px]">
+          <div className="w-full h-[100px] sm:h-[100px] lg:h-[230px]">
             <img src="/images/carousel1.jpg" alt="Hospital 1" className="w-full h-full object-cover rounded-lg" />
           </div>
-          <div className="w-full h-[100px] sm:h-[100px] lg:h-[100px]">
+          <div className="w-full h-[100px] sm:h-[100px] lg:h-[230px]">
             <img src="/images/carousel2.jpg" alt="Hospital 2" className="w-full h-full object-cover rounded-lg" />
           </div>
-          <div className="w-full h-[100px] sm:h-[100px] lg:h-[100px]">
+          <div className="w-full h-[100px] sm:h-[100px] lg:h-[230px]">
             <img src="/images/carousel3.jpg" alt="Hospital 3" className="w-full h-full object-cover rounded-lg" />
           </div>
         </Slider>

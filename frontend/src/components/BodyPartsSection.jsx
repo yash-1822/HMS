@@ -14,8 +14,8 @@ const bodyParts = [
 
 const BodyPartsSection = () => {
   return (
-    <div className="bg-green-100 p-2">
-      <div className="flex justify-center gap-26 flex-wrap">
+    <div className="bg-green-100 p-4">
+      <div className="flex justify-center gap-24 flex-wrap">
         {bodyParts.map((part) => (
           <div
             key={part.name}

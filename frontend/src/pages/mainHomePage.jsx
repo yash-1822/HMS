@@ -36,7 +36,7 @@ const HomePage = () => {
     return (
         <div className="min-h-screen flex flex-col">
             {/* <Navbar/> */}
-            <main className="flex-grow py-1">
+            <main className="">
                 <BodyPartsSection /> {/* Added BodyPartsSection here */}
                 <Carousel />
                 <section className="container mx-auto px-1 py-1">
