@@ -54,10 +54,10 @@ export const router = createBrowserRouter([
     element: <App />,
     children: [
       { path: "/", element: <HomePage /> },
-      { path: "/hospital/:id", element: <HomePage /> },
-      { path: "/hospital/:id/hospitalBody", element: <HospitalBody /> },
+      // { path: "/hospital/:id", element: <HomePage /> },
+      // { path: "/hospital/:id", element: <HospitalBody /> },
       { path: "/login", element:<LoginPage/> }, // Add the login page
-      { path: "/Registration", element:<Registration/>  },
+      { path: "/registration", element:<Registration/>  },
     ],
   },
 ]);

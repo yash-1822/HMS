@@ -1,17 +1,7 @@
-// import React from "react";
-// import AppRouter from "./routers/router";
-
-
-// const App = () => {
-//   return <AppRouter/>; // Use the router component
-// };
-
-// export default App;
-
 // import { Outlet, useLocation } from "react-router-dom";
-// import './App.css';
-// import { ToastContainer } from 'react-toastify';
-// import 'react-toastify/dist/ReactToastify.css';
+// import "./App.css";
+// import { ToastContainer } from "react-toastify";
+// import "react-toastify/dist/ReactToastify.css";
 // import Navbar from "./components/mainNavbar";
 // import Footer from "./components/footer";
 // import HospitalNavbar from "./components/hospitalNavbar";
@@ -21,28 +11,35 @@
 
 //   // Check if the user is on a hospital details page
 //   const isHospitalPage = location.pathname.startsWith("/hospital/");
-//   console.log("ishospiatl",isHospitalPage)
+  
+//   // Check if the user is on the login page
+//   const isLoginPage = location.pathname === "/login";
+//   const isRegisteredPage = location.pathname === "/Registration";
+
+
 
 //   return (
 //     <>
-//       <ToastContainer position='top-center' />
+//       <ToastContainer position="top-center" />
+
+//       {/* Show Navbar only if not on the login page */}
+//       {!isLoginPage && (isHospitalPage ? <HospitalNavbar /> : <Navbar />)}
       
-//       {/* Dynamic Navbar */}
-//       {isHospitalPage ? <HospitalNavbar/> : <Navbar />}
 
 //       {/* Main Content */}
-//       <main className="pt-[10px] pb-[55px]">
+//       <main>
 //         <Outlet />
 //       </main>
 
-//       <Footer/>
+//       {/* Show Footer only if not on the login page */}
+//       {!isLoginPage && <Footer />}
+      
+
 //     </>
 //   );
 // }
 
 // export default App;
-
-
 
 import { Outlet, useLocation } from "react-router-dom";
 import "./App.css";
@@ -55,29 +52,26 @@ import HospitalNavbar from "./components/hospitalNavbar";
 function App() {
   const location = useLocation();
 
-  // Check if the user is on a hospital details page
+  // Determine page type
   const isHospitalPage = location.pathname.startsWith("/hospital/");
-  
-  // Check if the user is on the login page
-  const isLoginPage = location.pathname === "/login"; 
+  const isLoginOrRegister = ["/login", "/registration"].includes(location.pathname);
 
   return (
     <>
       <ToastContainer position="top-center" />
 
-      {/* Show Navbar only if not on the login page */}
-      {!isLoginPage && (isHospitalPage ? <HospitalNavbar /> : <Navbar />)}
+      {/* Show Navbar if not on login/register pages */}
+      {!isLoginOrRegister && (isHospitalPage ? <HospitalNavbar /> : <Navbar />)}
 
-      {/* Main Content */}
-      <main className="pt-[10px] pb-[55px]">
+      {/* Main content */}
+      <main className="">
         <Outlet />
       </main>
 
-      {/* Show Footer only if not on the login page */}
-      {!isLoginPage && <Footer />}
+      {/* Show Footer if not on login/register pages */}
+      {!isLoginOrRegister && <Footer />}
     </>
   );
 }
 
 export default App;
-
