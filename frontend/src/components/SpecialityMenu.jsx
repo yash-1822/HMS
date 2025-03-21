@@ -1,6 +1,7 @@
 import React from 'react';
 import { specialityData } from '../assets/assets';
 import { Link } from 'react-router-dom';
+import { AppContext } from "../context/AppContext";
 
 const SpecialityMenu = () => {
   return (
@@ -12,7 +13,7 @@ const SpecialityMenu = () => {
           <Link 
           onClick={()=>scrollTo(0,0)}
             key={index} 
-            to={`/doctors/${item.speciality}`} 
+            to={`/hospital/:id/doctors/${item.speciality}`} 
             className="flex flex-col items-center gap-1 transform transition duration-300 hover:scale-105 hover:text-green-600"
           >
             <img 

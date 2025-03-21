@@ -18,28 +18,28 @@ const Navbar = () => {
 
             <ul className='hidden md:flex items-center gap-12 font-medium'>
                 <NavLink
-                    to="/hospital/:id/hospitalBody"
+                    to="/hospital/:hospitalId"
                     className={({ isActive }) =>
                         `no-underline text-green-700 hover:text-green-600 transition-all ${isActive ? 'text-transparent bg-clip-text bg-gradient-to-r from-green-500 to-green-700 font-semibold text-lg drop-shadow-lg' : ''}`
                     }>
                     <li className="cursor-pointer">Home</li>
                 </NavLink>
                 <NavLink
-                    to="/doctors"
+                    to="/hospital/:id/doctors"
                     className={({ isActive }) =>
                         `no-underline text-green-700 hover:text-green-600 transition-all ${isActive ? 'text-transparent bg-clip-text bg-gradient-to-r from-green-500 to-green-700 font-semibold text-lg drop-shadow-lg' : ''}`
                     }>
                     <li className="cursor-pointer">All Doctors</li>
                 </NavLink>
                 <NavLink
-                    to="/about"
+                    to="/hospital/:hospitalId/about"
                     className={({ isActive }) =>
                         `no-underline text-green-700 hover:text-green-600 transition-all ${isActive ? 'text-transparent bg-clip-text bg-gradient-to-r from-green-500 to-green-700 font-semibold text-lg drop-shadow-lg' : ''}`
                     }>
                     <li className="cursor-pointer">About</li>
                 </NavLink>
                 <NavLink
-                    to="/contact"
+                    to="/hospital/:hospitalId/contact"
                     className={({ isActive }) =>
                         `no-underline text-green-700 hover:text-green-600 transition-all ${isActive ? 'text-transparent bg-clip-text bg-gradient-to-r from-green-500 to-green-700 font-semibold text-lg drop-shadow-lg' : ''}`
                     }>
