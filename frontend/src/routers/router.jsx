@@ -87,22 +87,14 @@ export const router = createBrowserRouter([
     path: "/",
     element: <App />,
     children: [
-      { path: "/login", element: <LoginPage /> },
-      { path: "/registration", element: <Registration /> }, // Fixed casing
       { path: "/", element: <HomePage /> },
-<<<<<<< HEAD
-      // { path: "/hospital/:id", element: <HomePage /> },
-      // { path: "/hospital/:id", element: <HospitalBody /> },
       { path: "/login", element:<LoginPage/> }, // Add the login page
       { path: "/registration", element:<Registration/>  },
-=======
-      // { path: "/hospital/:hospitalId", element: <HomePage /> },
       { path: "/hospital/:hospitalId", element: <HospitalBody /> },
       { path: "/hospital/:hospitalId/doctors", element: <Doctors /> },
       { path: "/hospital/:hospitalId/doctors/:doctorId", element: <Appointment/>}, // Fixed `doctorId`
       { path: "/hospital/:hospitalId/about", element: <About /> }, // Use correct component
       { path: "/hospital/:hospitalId/contact", element: <Contact /> }, // Use correct component
->>>>>>> e883394f31445d99a2785ce4e0cdf396a644910c
     ],
   },
 ]);

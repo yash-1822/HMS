@@ -14,7 +14,7 @@ const Carousel = () => {
   };
 
   return (
-    <div className="w-full overflow-hidden bg-blue-50 py-8">
+    <div className="w-full overflow-hidden py-8">
       <div className="max-w-screen-xl mx-auto">
         <Slider {...settings}>
           <div className="w-full h-[100px] sm:h-[100px] lg:h-[230px]">
