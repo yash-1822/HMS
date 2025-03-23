@@ -42,6 +42,7 @@
 // export default App;
 
 import { Outlet, useLocation } from "react-router-dom";
+import { useState } from "react";
 import "./App.css";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -51,6 +52,7 @@ import HospitalNavbar from "./components/hospitalNavbar";
 
 function App() {
   const location = useLocation();
+  const [searchQuery, setSearchQuery] = useState("");
 
   // Determine page type
   const isHospitalPage = location.pathname.startsWith("/hospital/");
@@ -61,11 +63,11 @@ function App() {
       <ToastContainer position="top-center" />
 
       {/* Show Navbar if not on login/register pages */}
-      {!isLoginOrRegister && (isHospitalPage ? <HospitalNavbar /> : <Navbar />)}
+      {!isLoginOrRegister && (isHospitalPage ? <HospitalNavbar /> : <Navbar setSearchQuery={setSearchQuery} searchQuery={searchQuery} />)}
 
       {/* Main content */}
       <main className="">
-        <Outlet />
+        <Outlet context={{ searchQuery }}/>
       </main>
 
       {/* Show Footer if not on login/register pages */}
