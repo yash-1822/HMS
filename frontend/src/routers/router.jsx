@@ -90,6 +90,7 @@ export const router = createBrowserRouter([
       { path: "/", element: <HomePage /> },
       { path: "/login", element:<LoginPage/> }, // Add the login page
       { path: "/registration", element:<Registration/>  },
+      // { path: "/hospital/:hospitalId", element: <HomePage /> },
       { path: "/hospital/:hospitalId", element: <HospitalBody /> },
       { path: "/hospital/:hospitalId/doctors", element: <Doctors /> },
       { path: "/hospital/:hospitalId/doctors/:doctorId", element: <Appointment/>}, // Fixed `doctorId`
