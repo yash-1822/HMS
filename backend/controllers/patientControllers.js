@@ -74,6 +74,7 @@ const login = async(req,res) => {
             ({
                 message:"Login succesfully",
                 data:token, 
+                user: { _id: userDetails._id, email: userDetails.email, name: userDetails.name },
                 expires: new Date(Date.now() + 60*60*8),
                 success:true,
                 error:false
@@ -84,6 +85,11 @@ const login = async(req,res) => {
         return res.status(500).json({ error: "Internal Server Error" });
     }
 
+}
+
+
+const checkToken = async(req,res) => {
+    res.status(200).json({ message: "Valid token", user: req.user });
 }
 
 
@@ -140,6 +146,22 @@ const sendOTP = async (req, res) => {
 };
 
 
-module.exports = { register,login,sendOTP };
+const logout = async(req,res)=>{
+    try{
+        res.clearCookie("token")
+        res.json({
+            message:"Log out successfully",
+            error:false,
+            success:true,
+            data:[]
+        })
+    }
+    catch(error){
+        res.status(500).json({ message: "Server error" });
+    }
+}
+
+
+module.exports = { register,login,sendOTP,checkToken,logout};
 
 

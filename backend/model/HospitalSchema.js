@@ -148,6 +148,10 @@ const HospitalSchema = new mongoose.Schema({
     },
     default:"other", // Ensures it's optional
   },
+  specializations: {
+    type: [String],
+    default: []
+  },
   hospitalManagers: [{
     type: mongoose.Schema.Types.ObjectId,
     ref: "User",
