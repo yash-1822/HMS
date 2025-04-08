@@ -21,6 +21,7 @@ const addHospitals = async(req, res) => {
 const getEluruData = async(req,res) => {
   try {
     const hospitals = await Hospital.find({ District: "Eluru" });
+    console.log(hospitals)
     res.status(200).json(hospitals);
   } catch (error) {
     res.status(500).json({ message: "Error fetching hospitals", error });
