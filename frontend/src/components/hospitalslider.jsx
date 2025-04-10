@@ -132,12 +132,16 @@ import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 import { AiFillStar, AiOutlineStar } from "react-icons/ai";
 import { useNavigate } from "react-router-dom";
 
-const HospitalSlider = ({ selectedBodyPart,searchQuery }) => {
+const HospitalSlider = ({ selectedBodyPart,searchQuery,city }) => {
   const navigate = useNavigate();
   const [hospitals, setHospitals] = useState([]);
   const [filteredHospitals, setFilteredHospitals] = useState([]);
   const [seeMore, setSeeMore] = useState(false);
+     const [doctors, setDoctors] = useState([]);
   const sliderRef = useRef(null);
+
+
+  console.log("search query from hospitals is:",searchQuery)
 
   console.log("searchquery is:",searchQuery);
 
@@ -146,7 +150,9 @@ const HospitalSlider = ({ selectedBodyPart,searchQuery }) => {
   useEffect(() => {
     const fetchHospitals = async () => {
       try {
-        const response = await fetch("http://localhost:8000/hospital/hospitals/eluru");
+
+        const cityParam = city && city.trim() !== "" ? city : "all";
+        const response = await fetch(`http://localhost:8000/hospital/hospitals/${cityParam}`);
         const data = await response.json();
         setHospitals(data);
       } catch (error) {
@@ -154,7 +160,9 @@ const HospitalSlider = ({ selectedBodyPart,searchQuery }) => {
       }
     };
     fetchHospitals();
-  }, []);
+  }, [city]);
+
+ 
 
   const getFirstTiming = (hours) => {
     if (!hours) return "Timing info not available";
@@ -162,18 +170,7 @@ const HospitalSlider = ({ selectedBodyPart,searchQuery }) => {
     return matches ? matches[1] : "Timing info not available";
   };
 
-  // useEffect(() => {
-  //   if (!selectedBodyPart || selectedBodyPart === "all") {
-  //     setFilteredHospitals(hospitals); // Show all hospitals if "All" is selected
-  //   } else {
-  //     const filtered = hospitals.filter((hospital) =>
-  //       hospital.Speciality.some(
-  //         (speciality) => speciality.toLowerCase() === selectedBodyPart
-  //       )
-  //     );
-  //     setFilteredHospitals(filtered);
-  //   }
-  // }, [selectedBodyPart, hospitals]);
+ 
 
   useEffect(() => {
     let filtered = hospitals;
@@ -208,7 +205,7 @@ const HospitalSlider = ({ selectedBodyPart,searchQuery }) => {
     slidesToShow: 4,
     slidesToScroll: 1,
     autoplay: true,
-    autoplaySpeed: 3000,
+    autoplaySpeed: 2000,
     arrows: false,
     responsive: [
       { breakpoint: 1024, settings: { slidesToShow: 3 } },
@@ -244,7 +241,7 @@ const HospitalSlider = ({ selectedBodyPart,searchQuery }) => {
         // Slider Mode
         <div className="relative">
           <button
-            className="absolute left-0 top-1/2 transform -translate-y-1/2 bg-gray-800 text-white p-3 rounded-full shadow-lg hover:bg-gray-700 z-10"
+            className="hidden md:block absolute left-0 top-1/2 transform -translate-y-1/2 bg-gray-800 text-white p-3 rounded-full shadow-lg hover:bg-gray-700 z-10"
             onClick={() => sliderRef.current.slickPrev()}
           >
             <FaChevronLeft />
@@ -265,7 +262,7 @@ const HospitalSlider = ({ selectedBodyPart,searchQuery }) => {
                       onError={(e) => (e.target.src = "/images/hospital1.png")}
                     />
                     <div className="px-4 py-2 flex flex-col justify-between flex-grow">
-                      <h3 className="text-lg font-semibold text-gray-800">{hospital.Place_name}</h3>
+                      <h3 className="text-md mt-1 font-semibold text-gray-800 line-clamp-1">{hospital.Place_name}</h3>
                       <p className="text-sm text-gray-600 line-clamp-2">{hospital.Address1}</p>
                       <div className="mt-1">
     <span className="text-md font-semibold text-gray-800">Specialized in : </span>
@@ -291,7 +288,7 @@ const HospitalSlider = ({ selectedBodyPart,searchQuery }) => {
           </Slider>
 
           <button
-            className="absolute right-0 top-1/2 transform -translate-y-1/2 bg-gray-800 text-white p-3 rounded-full shadow-lg hover:bg-gray-700 z-10"
+            className="hidden md:block absolute right-0 top-1/2 transform -translate-y-1/2 bg-gray-800 text-white p-3 rounded-full shadow-lg hover:bg-gray-700 z-10"
             onClick={() => sliderRef.current.slickNext()}
           >
             <FaChevronRight />
@@ -302,15 +299,15 @@ const HospitalSlider = ({ selectedBodyPart,searchQuery }) => {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
           {filteredHospitals.length > 0 ? (
             filteredHospitals.map((hospital) => (
-              <div key={hospital._id}   className="bg-white rounded-lg shadow-lg border border-gray-200 p-4 flex flex-col justify-between">
+              <div key={hospital._id} onClick={() => navigate(`/hospital/${hospital._id}`)}  className="cursor-pointer bg-white rounded-lg shadow-lg border border-gray-200 p-4 flex flex-col justify-between">
                 <img
                   src={hospital.Featured_Image || "/images/hospital1.png"}
                   alt={hospital.Place_name}
                   className="w-full object-cover h-40 rounded-t-lg"
                   onError={(e) => (e.target.src = "/images/hospital1.png")}
                 />
-                <div className="mt-3">
-                  <h3 className="text-lg font-semibold text-gray-800">{hospital.Place_name}</h3>
+                <div className="">
+                  <h3 className="text-md font-semibold text-gray-800 line-clamp-1 mt-1">{hospital.Place_name}</h3>
                   <p className="text-sm text-gray-600 line-clamp-2">{hospital.Address1}</p>
                   <div className="mt-1">
     <span className="text-md font-semibold text-gray-800">Specialized in : </span>
@@ -337,7 +334,7 @@ const HospitalSlider = ({ selectedBodyPart,searchQuery }) => {
       )}
 
       {/* Button placed BELOW the cards */}
-      <div className="text-center mt-6">
+      <div className="text-center mt-4">
         <button
           className="cursor-pointer bg-green-600 text-white px-4 py-2 rounded-lg shadow-md hover:bg-green-700 transition"
           onClick={() => setSeeMore(!seeMore)}

@@ -18,13 +18,41 @@ const addHospitals = async(req, res) => {
   }
 };
 
-const getEluruData = async(req,res) => {
+
+const getHospitalsByCity = async (req, res) => {
   try {
-    const hospitals = await Hospital.find({ District: "Eluru" });
-    console.log(hospitals)
+    const { id: city } = req.params; // Extract city from URL params
+    console.log("city name is:",city);
+
+    let hospitals;
+
+    if (city && city.toLowerCase() !== "all") {
+      // If city is not "all", filter hospitals where Address1 contains city name
+      hospitals = await Hospital.find({ Address1: { $regex: city, $options: "i" } });
+    } else {
+      // If city is "all", return hospitals with rating > 4.5
+      console.log("i am from all");
+      hospitals = await Hospital.find({ Total_score: { $gt: 4.5 } });
+    }
+
     res.status(200).json(hospitals);
   } catch (error) {
     res.status(500).json({ message: "Error fetching hospitals", error });
+  }
+};
+
+
+const getHospitalData = async(req,res) => {
+  try {
+    console.log("req.params.id is:",req.params);
+    const hospital = await Hospital.findById(req.params.id);
+    if (!hospital) {
+      return res.status(404).json({ message: "Hospital not found" });
+    }
+    res.json(hospital);
+  } catch (error) {
+    console.error("Error fetching hospital:", error);
+    res.status(500).json({ message: "Server error" });
   }
 }
 
@@ -39,4 +67,4 @@ const getImage = async(req,res) => {
   }
 }
 
-module.exports = {addHospitals,getEluruData,getImage};
+module.exports = {addHospitals,getHospitalsByCity,getImage,getHospitalData};

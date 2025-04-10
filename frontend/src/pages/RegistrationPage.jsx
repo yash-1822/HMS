@@ -295,6 +295,10 @@
 import { useState } from "react";
 import { FaHospital, FaLock, FaEnvelope, FaUser, FaPhone, FaHome } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
+
 
 export default function Registration() {
   const navigate = useNavigate();
@@ -307,6 +311,7 @@ export default function Registration() {
     confirmPassword: "",
   });
 
+  const [loading, setLoading] = useState(false);
   const [errors, setErrors] = useState({});
 
   // Handle input change and clear errors dynamically
@@ -349,7 +354,9 @@ export default function Registration() {
 
   const handleSubmit = async(e) => {
     e.preventDefault();
-    if (validateForm()) {
+    if (!validateForm()) return;
+      setLoading(true); // Show spinner
+
       console.log("Form Submitted Successfully", formData);
       try {
         const response = await fetch("http://localhost:8000/patient/register", {
@@ -363,15 +370,20 @@ export default function Registration() {
         const data = await response.json();
   
         if (response.ok) {
-          alert("Registration successful! Redirecting to login.");
-          navigate("/login"); // Redirect to login page
+          toast.success("Registration successful!", {
+            onClose: () => navigate("/login") // Navigate only after toast disappears
+          });
         } else {
           setErrors(data.message || "Registration failed. Please try again.");
         }
       } catch (err) {
+        toast.error("Registartion Failure!")
         setErrors("Something went wrong. Please check your connection.");
       }
-    }
+      finally {
+        setLoading(false); // Hide spinner
+      }
+    
   };
 
   return (
@@ -485,11 +497,19 @@ export default function Registration() {
               </div>
 
               {/* Submit Button */}
-              <button
+              {/* <button
                 type="submit"
                 className="w-full bg-green-600 text-white py-2 rounded-lg hover:bg-green-700 transition duration-300"
               >
                 Create Account
+              </button> */}
+
+<button
+                type="submit"
+                className="w-full bg-green-600 text-white py-2 rounded-lg hover:bg-green-700 transition flex items-center justify-center"
+                disabled={loading}
+              >
+                {loading ? <div className="animate-spin h-5 w-5 border-2 border-white border-t-transparent rounded-full"></div> : "Create Account"}
               </button>
             </form>
             <div className="mt-6 text-center">
@@ -498,6 +518,9 @@ export default function Registration() {
                 <button onClick={() => navigate("/login")} className="ml-1 text-green-600 hover:underline">
                   Sign in
                 </button>
+
+
+
               </p>
             </div>
           </div>
