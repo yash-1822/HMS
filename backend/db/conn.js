@@ -52,7 +52,6 @@ mongoose.connect(process.env.MONGODB_URI)
 
 
 
-<<<<<<< HEAD
 //   const specialities = ["nose", "lungs", "brain", "kidney", "liver", "eye", "heart", "ear"];
 
 //   const getRandomSpecialities = () => {
@@ -84,7 +83,6 @@ mongoose.connect(process.env.MONGODB_URI)
 // }
 
 // insertHospitals();
-=======
 const doctorsData = JSON.parse(
   fs.readFileSync(path.join(__dirname, "../doctorsData.json"), "utf-8")
 );
@@ -136,7 +134,6 @@ const updateDoctorsWithRandomRatings = async () => {
 };
 
 // updateDoctorsWithRandomRatings();
->>>>>>> 2864c5d34d88d6d2625f0752da4c4d813e84a273
 
 
 
