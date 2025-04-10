@@ -75,10 +75,25 @@ const HospitalBody = () => {
   useEffect(() => {
     const verifyToken = async () => {
       try {
+        // const response = await fetch("http://localhost:8000/patient/verify-token", {
+        //   method: "GET",
+        //   credentials: "include", // Ensures cookies are sent
+        // });
+
+
+        const token = localStorage.getItem("authToken");
+
+        if (!token) {
+          throw new Error("Token not found");
+        }
+
         const response = await fetch("http://localhost:8000/patient/verify-token", {
           method: "GET",
-          credentials: "include", // Ensures cookies are sent
+          headers: {
+            Authorization: `Bearer ${token}`, // ✅ Send token via Authorization header
+          },
         });
+
 
         const data = await response.json();
         console.log("Token verification response:", data);

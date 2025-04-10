@@ -994,6 +994,7 @@ import { useParams } from 'react-router-dom';
 import { assets } from "../assets/assets";
 import RelatedDoctors from '../components/RelatedDoctors';
 import { AiFillStar, AiOutlineStar } from "react-icons/ai";
+import { useNavigate,useLocation } from "react-router-dom";
 
 const Appointment = () => {
   const { doctorId } = useParams();
@@ -1003,17 +1004,66 @@ const Appointment = () => {
 const [selectedDayIndex, setSelectedDayIndex] = useState(0);
 const [availableTimeSlots, setAvailableTimeSlots] = useState([]);
 const [selectedSlotTime, setSelectedSlotTime] = useState("");
+const navigate = useNavigate(); 
+const location = useLocation();
+const [isAuthenticated, setIsAuthenticated] = useState(null);
 
-console.log("Remaining data is",selectedDayIndex,availableTimeSlots,selectedSlotTime);
+useEffect(() => {
+  const verifyToken = async () => {
+    try {
+      // const response = await fetch("http://localhost:8000/patient/verify-token", {
+      //   method: "GET",
+      //   credentials: "include", // Ensures cookies are sent
+      // });
+
+
+      const token = localStorage.getItem("authToken");
+
+        if (!token) {
+          throw new Error("Token not found");
+        }
+
+        const response = await fetch("http://localhost:8000/patient/verify-token", {
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${token}`, // ✅ Send token via Authorization header
+          },
+        });
+
+      const data = await response.json();
+      console.log("Token verification response:", data);
+
+      if (response.ok) {
+        setIsAuthenticated(true);
+      } else {
+        setIsAuthenticated(false);
+        navigate(`/login?redirect=${encodeURIComponent(location.pathname)}`); // Redirect with intended path
+      }
+    } catch (error) {
+      console.error("Token verification failed:", error);
+      setIsAuthenticated(false);
+      navigate(`/login?redirect=${encodeURIComponent(location.pathname)}`);
+    }
+  };
+
+  verifyToken();
+}, [navigate, location.pathname])
 
   useEffect(() => {
     const fetchDoctor = async () => {
       try {
+        const token = localStorage.getItem("authToken");
         const response = await fetch(`http://localhost:8000/doctors/${doctorId}`, {
+          // method: "GET",
+          // credentials: "include",
+          // headers: {
+          //   "Content-Type": "application/json",
+          // },
+
           method: "GET",
-          credentials: "include",
           headers: {
             "Content-Type": "application/json",
+            "Authorization": `Bearer ${token}`,
           },
         });
         if (!response.ok) throw new Error("Failed to fetch doctor details");

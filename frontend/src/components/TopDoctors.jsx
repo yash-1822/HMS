@@ -6,6 +6,7 @@ import { useState,useEffect } from 'react';
 const TopDoctors = ({hospitalId}) => {
     const navigate = useNavigate();
     const [doctors, setDoctors] = useState([]);
+    console.log("hospaital ID from is:",hospitalId)
 
     // useEffect(() => {
     //     const fetchDoctors = async () => {
@@ -53,7 +54,7 @@ const TopDoctors = ({hospitalId}) => {
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 mt-6 w-full max-w-6xl cursor-pointer">
                 {doctors.slice(0, 8).map((item, index) => (
                     <div 
-                        onClick={() => navigate(`/hospital/${item.hospitalId}/doctors/${item._id}`)}
+                        onClick={() => navigate(`/hospital/${hospitalId}/doctors/${item._id}`)}
                         key={index} 
                         className="bg-white rounded-xl shadow-lg p-4 flex flex-col items-center transition-transform transform hover:scale-105 hover:shadow-xl w-full max-w-xs"
                     >
