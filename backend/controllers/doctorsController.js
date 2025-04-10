@@ -100,6 +100,7 @@ const getUniqueSpecialities = async (req, res) => {
 
 const getDoctorById = async(req,res) => {
   try {
+    console.log("i am in yash")
     const doctor = await Doctor.findById(req.params.id);
     if (!doctor) {
       return res.status(404).json({ message: "Doctor not found" });

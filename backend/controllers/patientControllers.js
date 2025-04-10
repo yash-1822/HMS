@@ -8,7 +8,8 @@ const User = require("../model/UserSchema");
 const register = async (req, res) => {
     console.log("body is:",req.body);
     try {
-        const { name, phone, address, email, password, confirmPassword} = req.body;
+        const { name, phone, address, email, password, confirmPassword,role} = req.body;
+
 
         if (!name || !phone || !address || !email || !password || !confirmPassword) {
             return res.status(400).json({ error: "All fields are required" });
@@ -29,7 +30,7 @@ const register = async (req, res) => {
             location: address, 
             email,
             password,
-            role:"patient", 
+            role:role || "patient", 
             status: "Pending", 
         });
 
@@ -43,49 +44,97 @@ const register = async (req, res) => {
     }
 };
 
-const login = async(req,res) => {
-    try {
-        const { email, password } = req.body;
 
-        const userDetails = await User.findOne({ email });
-        if (!userDetails) {
-            return res.status(400).json({ error: "User not found" });
-        }
 
-        // Verify password
-        const isMatch = await bcrypt.compare(password, userDetails.password);
-        if (!isMatch) {
-            return res.status(400).json({ error: "Incorrect password" });
-        }
+// const login = async(req,res) => {
+//     try {
+//         const { email, password } = req.body;
 
-        const checkPassword = await bcrypt.compare(password,userDetails.password)
-        const tokenData = {
-                _id:userDetails._id,
-                email:userDetails.email
-            }
+//         const userDetails = await User.findOne({ email });
+//         if (!userDetails) {
+//             return res.status(400).json({ error: "User not found" });
+//         }
 
-            const token = await jwt.sign(tokenData,process.env.SECRET_KEY,{expiresIn : 60*60*8});
-            const tokenOptions = {
-                httpOnly:true,
-                secure:true
-            } 
+//         // Verify password
+//         const isMatch = await bcrypt.compare(password, userDetails.password);
+//         if (!isMatch) {
+//             return res.status(400).json({ error: "Incorrect password" });
+//         }
 
-            res.cookie("token",token,tokenOptions).status(200).json
-            ({
-                message:"Login succesfully",
-                data:token, 
-                user: { _id: userDetails._id, email: userDetails.email, name: userDetails.name },
-                expires: new Date(Date.now() + 60*60*8),
-                success:true,
-                error:false
-            })  
+//         const checkPassword = await bcrypt.compare(password,userDetails.password)
+//         const tokenData = {
+//                 _id:userDetails._id,
+//                 email:userDetails.email
+//             }
+
+//             const token = await jwt.sign(tokenData,process.env.SECRET_KEY,{expiresIn : 60*60*8});
+//             const tokenOptions = {
+//                 httpOnly:true,
+//                 secure:true
+//             } 
+
+//             res.cookie("token",token,tokenOptions).status(200).json
+//             ({
+//                 message:"Login succesfully",
+//                 data:token, 
+//                 user: { _id: userDetails._id, email: userDetails.email, name: userDetails.name },
+//                 expires: new Date(Date.now() + 60*60*8),
+//                 success:true,
+//                 error:false
+//             })  
         
-    } catch (error) {
-        console.error("Login error:", error);
-        return res.status(500).json({ error: "Internal Server Error" });
+//     } catch (error) {
+//         console.error("Login error:", error);
+//         return res.status(500).json({ error: "Internal Server Error" });
+//     }
+
+// }
+
+
+
+const login = async (req, res) => {
+  try {
+    const { email, password } = req.body;
+
+    const userDetails = await User.findOne({ email });
+    if (!userDetails) {
+      return res.status(400).json({ error: "User not found" });
     }
 
-}
+    const isMatch = await bcrypt.compare(password, userDetails.password);
+    if (!isMatch) {
+      return res.status(400).json({ error: "Incorrect password" });
+    }
+
+    const tokenData = {
+      _id: userDetails._id,
+      email: userDetails.email,
+    };
+
+    const token = jwt.sign(tokenData, process.env.SECRET_KEY, {
+      expiresIn: "8h",
+    });
+
+    res.status(200).json({
+      message: "Login successful",
+      token, // ⬅️ send token in response body
+      user: {
+        _id: userDetails._id,
+        email: userDetails.email,
+        name: userDetails.name,
+      },
+      expires: new Date(Date.now() + 1000 * 60 * 60 * 8),
+      success: true,
+      error: false,
+    });
+  } catch (error) {
+    console.error("Login error:", error);
+    return res.status(500).json({ error: "Internal Server Error" });
+  }
+};
+
+module.exports = login;
+
 
 
 const checkToken = async(req,res) => {
