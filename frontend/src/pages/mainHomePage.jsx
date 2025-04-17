@@ -199,9 +199,9 @@ const HomePage = () => {
 
     return (
         <div className="min-h-screen flex flex-col">
-            <main className="mt-2">
+            <main className="mt-[2px]">
             <BodyPartsSection onBodyPartSelect={setSelectedBodyPart} />
-                {(selectedBodyPart === null || selectedBodyPart === "all") && <Carousel />}
+                {(selectedBodyPart === null || selectedBodyPart === "all") && <Carousel/>}
                 <section className="container mx-auto px-1 py-1">
                 <HospitalSlider selectedBodyPart={selectedBodyPart} searchQuery={searchQuery} city = {city}/>
                 </section>
