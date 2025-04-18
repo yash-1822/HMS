@@ -80,24 +80,24 @@ useEffect(() => {
     // }, [navigate]);
   
   return (
-    <div className="px-4 md:px-12 lg:px-20">
+    <div className="px-4 md:px-12 lg:px-55">
       {/* Contact Us Heading */}
       <div className="text-center md:text-3xl text-2xl md:pt-10 pt-6 text-gray-600 font-semibold">
         <p>CONTACT <span className="text-gray-800">US</span></p>
       </div>
 
       {/* Contact Details Section */}
-      <div className="md:my-12 my-7 flex flex-col md:flex-row gap-12 items-center">
+      <div className="md:my-12 my-7 flex flex-col md:flex-row gap-18 items-center">
         <img 
           className="w-full md:max-w-[400px] rounded-lg shadow-lg transform transition duration-300 hover:scale-105"
           src={assets.contact_image} 
           alt="Contact Us"
         />
-        <div className="flex flex-col justify-center items-start gap-6 text-md text-gray-700 leading-relaxed">
+        <div className="flex flex-col justify-center items-start gap-10 text-md text-gray-700 leading-relaxed">
           {/* Office Location */}
           <div className="border-l-4 border-green-400 pl-4">
             <p className="font-semibold text-lg text-gray-700">Our OFFICE</p>
-            <p className="text-gray-600 mt-1">54709 Willms Station <br /> Suite 350, Washington, USA</p>
+            <p className="text-gray-600 mt-1">54709 Benz Circle <br /> Vijayawada, Andhra Pradesh, India</p>
           </div>
 
           {/* Contact Information */}
@@ -105,7 +105,7 @@ useEffect(() => {
             <p className="font-semibold text-lg text-gray-700">Get in Touch</p>
             <p className="text-gray-600 mt-1">
               📞 Tel: (415) 555‑0132 <br />
-              ✉️ Email: <a href="mailto:greatstackdev@gmail.com" className="text-green-500 hover:underline">greatstackdev@gmail.com</a>
+              ✉️ Email: <a href="mailto:medicare@gmail.com" className="text-green-500 hover:underline">medicare@gmail.com</a>
             </p>
           </div>
 
