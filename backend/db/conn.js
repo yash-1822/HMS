@@ -107,6 +107,57 @@ mongoose.connect(process.env.MONGODB_URI)
 // }
 
 // insertHospitals();
+const doctorsData = JSON.parse(
+  fs.readFileSync(path.join(__dirname, "../doctorsData.json"), "utf-8")
+);
+
+// Function to insert doctor data
+async function insertDoctorsData() {
+  try {
+    // Connect to MongoDB
+    await mongoose.connect(process.env.MONGODB_URI, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+    });
+    console.log("✅ Connected to MongoDB Atlas");
+
+    // Insert data into the database
+    const insertedDoctors = await Doctor.insertMany(doctorsData);
+    console.log(`🎉 Successfully inserted ${insertedDoctors.length} doctors!`);
+
+  } catch (error) {
+    console.error("❌ Error inserting doctors:", error);
+  } finally {
+    // Close connection after operation
+    mongoose.connection.close();
+    console.log("🔌 MongoDB connection closed.");
+  }
+}
+
+
+// insertDoctorsData();
+
+
+
+const updateDoctorsWithRandomRatings = async () => {
+  try {
+    const doctors = await Doctor.find();
+
+    for (let doctor of doctors) {
+      const randomRating = (Math.random() * (5 - 3.5) + 3.5).toFixed(1); // Generate rating between 3.5 and 5
+      await Doctor.updateOne({ _id: doctor._id }, { $set: { ratings: parseFloat(randomRating) } });
+      console.log(`Updated ${doctor.name} with rating: ${randomRating}`);
+    }
+
+    console.log("All doctors updated successfully!");
+    mongoose.disconnect();
+  } catch (error) {
+    console.error("Error updating doctors:", error);
+    mongoose.disconnect();
+  }
+};
+
+// updateDoctorsWithRandomRatings();
 
 
 
