@@ -56,6 +56,31 @@ const getHospitalData = async(req,res) => {
   }
 }
 
+const getUniqueSpecialities = async (req, res) => {
+  // try {
+  //   const doctors = await Doctor.find({}, "specialty"); // Fetch only the specialization field
+  //   const specializations = [...new Set(doctors.map(doc => doc.specialty))];
+
+  //   res.status(200).json({ specializations });
+  // } 
+
+  const {hospitalId} = req.params;
+
+  try {
+    const hospital = await Hospital.findById(hospitalId, "specializations"); // Fetch only the 'specializations' field
+
+    if (!hospital) {
+      return res.status(404).json({ message: "Hospital not found" });
+    }
+
+    res.status(200).json({ specializations: hospital.specializations });
+  } 
+  catch (error) {
+    console.error("Error fetching specialities:", error);
+    res.status(500).json({ message: "Server Error" });
+  }
+};
+
 const getImage = async(req,res) => {
   const { url } = req.query;
   try {
@@ -67,4 +92,4 @@ const getImage = async(req,res) => {
   }
 }
 
-module.exports = {addHospitals,getHospitalsByCity,getImage,getHospitalData};
+module.exports = {addHospitals,getHospitalsByCity,getImage,getHospitalData,getUniqueSpecialities};

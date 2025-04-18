@@ -1,5 +1,6 @@
 const express = require("express");
 const Doctor = require("../model/DoctorSchema");
+const appointmentModel = require("../model/AppointmentSchema")
 const router = express.Router();
 
 const getDoctors = async (req, res) => {
@@ -86,13 +87,66 @@ const getDoctorsByCity = async (req, res) => {
 };
 
 
-const getUniqueSpecialities = async (req, res) => {
-  try {
-    const doctors = await Doctor.find({}, "specialty"); // Fetch only the specialization field
-    const specializations = [...new Set(doctors.map(doc => doc.specialty))];
 
-    res.status(200).json({ specializations });
+const addAppointment = async (req, res) => {
+  try {
+    const {
+      userEmail,
+      slotDate,
+      slotTime,
+      docData,
+      amount,
+      cancelled,
+      payment,
+      isCompleted,
+    } = req.body;
+
+    // Validation (optional)
+    if (!userEmail || !slotDate || !slotTime || !docData || !amount) {
+      return res
+        .status(400)
+        .json({ success: false, message: "All required fields must be filled." });
+    }
+
+    const newAppointment = new appointmentModel({
+      userEmail,
+      slotDate,
+      slotTime,
+      docData,
+      amount,
+      cancelled,
+      payment,
+      isCompleted,
+    });
+
+    await newAppointment.save();
+
+    res.json({ success: true, message: "Appointment added successfully!" });
   } catch (error) {
+    console.error(error);
+    res
+      .status(500)
+      .json({ success: false, message: "Server error: " + error.message });
+  }
+};
+
+
+
+
+const getUniqueSpecialities = async (req, res) => {
+ 
+  const hospitalId = req.params.id;
+
+  try {
+    const hospital = await Hospital.findById(hospitalId, "specializations"); // Fetch only the 'specializations' field
+
+    if (!hospital) {
+      return res.status(404).json({ message: "Hospital not found" });
+    }
+
+    res.status(200).json({ specializations: hospital.specializations });
+  } 
+  catch (error) {
     console.error("Error fetching specialities:", error);
     res.status(500).json({ message: "Server Error" });
   }
@@ -137,4 +191,4 @@ const getRelatedDoctors = async(req,res) => {
 
 
 
-module.exports = {getDoctors,getDoctorsByCity,getUniqueSpecialities,getDoctorById,getRelatedDoctors,getDoctorsByHospitalId}
+module.exports = {addAppointment,getDoctors,getDoctorsByCity,getUniqueSpecialities,getDoctorById,getRelatedDoctors,getDoctorsByHospitalId}

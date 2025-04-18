@@ -65,8 +65,11 @@ require("../db/conn");
 app.use(cors({
   origin: '*', // Allow requests from any origin
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
-  allowedHeaders: ['Content-Type', 'Authorization'], // Allow JWT tokens
+  // allowedHeaders: ['Content-Type', 'Authorization'], // Allow JWT tokens
+  allowedHeaders: ['Content-Type', 'Authorization', 'aToken', 'dToken'],
 }));
+
+app.options('*', cors());
 
 app.use(express.json()); // ✅ Parse JSON requests
 
@@ -77,9 +80,21 @@ const patientRoutes = require('../routes/patientRoutes');
 const hospitalRoutes = require('../routes/hospitalRoutes');
 const doctorRoutes = require('../routes/doctorRoutes');
 
+//adminRoutes
+const adminDoctorRoutes = require('../routes/adminDoctorsRoute')
+const hospitalAdminRoutes = require('../routes/hospitalAdminRoutes')
+
+
+
+//patient,hospital,doctors
 app.use('/patient', patientRoutes);
 app.use('/hospital', hospitalRoutes);
 app.use('/doctors', doctorRoutes);
+
+//admin
+app.use('/adminDoctor',adminDoctorRoutes);
+app.use('/hospitalAdmin',hospitalAdminRoutes)
+
 
 async function startServer() {
   try {

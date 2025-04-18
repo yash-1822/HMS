@@ -1,5 +1,6 @@
 require("dotenv").config();
 const fs = require("fs");
+const bcrypt = require("bcryptjs");
 const path = require("path");
 const Hospital = require("../model/HospitalSchema");
 const Doctor = require("../model/DoctorSchema")
@@ -14,6 +15,29 @@ mongoose.connect(process.env.MONGODB_URI)
     console.log("Mongodb not connected...",err);
   });
 
+  const updatePasswords = async () => {
+    try {
+      const doctors = await Doctor.find();
+  
+      for (let doctor of doctors) {
+        // Add password only if not already set
+        if (!doctor.password) {
+          const hashedPassword = await bcrypt.hash("123456", 10);
+          doctor.password = hashedPassword;
+          await doctor.save();
+          console.log(`Updated password for doctor: ${doctor.email}`);
+        }
+      }
+  
+      console.log("All doctor passwords updated.");
+      process.exit();
+    } catch (error) {
+      console.error("Error updating passwords:", error);
+      process.exit(1);
+    }
+  };
+
+  // updatePasswords()
 
 
 
@@ -464,4 +488,21 @@ const updateDoctorsAvailability = async () => {
 // };
 
 // updateDoctorAvailability();
+
+
+
+
+const addRoleToDoctors = async () => {
+  try {
+    const result = await Doctor.updateMany(
+      { role: { $exists: false } }, // only if role doesn't exist
+      { $set: { role: "doctor" } }
+    );
+    console.log("Doctors updated:", result.modifiedCount);
+  } catch (err) {
+    console.error("Error updating doctors:", err);
+  }
+};
+
+// addRoleToDoctors();
 
