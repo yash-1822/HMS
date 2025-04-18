@@ -376,6 +376,7 @@ const Doctors = () => {
   const { hospitalId } = useParams();
 
   console.log("hospital id is",hospitalId)
+  const token = localStorage.getItem("authToken");
 
   const location = useLocation();
   const [isAuthenticated, setIsAuthenticated] = useState(null);
@@ -383,13 +384,7 @@ const Doctors = () => {
   useEffect(() => {
     const verifyToken = async () => {
       try {
-        // const response = await fetch("http://localhost:8000/patient/verify-token", {
-        //   method: "GET",
-        //   credentials: "include", // Ensures cookies are sent
-        // });
-
-
-        const token = localStorage.getItem("authToken");
+       
 
         if (!token) {
           throw new Error("Token not found");
@@ -403,7 +398,6 @@ const Doctors = () => {
         });
 
         const data = await response.json();
-        console.log("Token verification response:", data);
 
         if (response.ok) {
           setIsAuthenticated(true);
@@ -437,9 +431,16 @@ const Doctors = () => {
 
     const fetchSpecialities = async () => {
       try {
-        const response = await fetch(`http://localhost:8000/hospital/findHospital/${hospitalId}`, {
+        // const response = await fetch(`http://localhost:8000/hospital/findHospital/${hospitalId}`, {
+        //   method: "GET",
+        //   credentials: "include",
+        // });
+
+        const response = await fetch(`http://localhost:8000/hospital/getUniqueSpecialities/${hospitalId}`, {
           method: "GET",
-          credentials: "include",
+          headers: {
+            "Authorization": `Bearer ${token}`,
+          },
         });
 
         if (!response.ok) {
@@ -447,6 +448,7 @@ const Doctors = () => {
         }
 
         const data = await response.json();
+        console.log("data is:",data)
         setSpecialities(data.specializations);
       } catch (error) {
         console.error("Error fetching specialities:", error);
@@ -456,6 +458,8 @@ const Doctors = () => {
     fetchDoctors();
     fetchSpecialities();
   }, []);
+
+
 
   // Filter doctors when a specialty is selected
   const handleSpecialityClick = (spec) => {
