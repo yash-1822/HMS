@@ -41,6 +41,7 @@ import About from "../pages/About";
 import Contact from "../pages/Contact";
 import MyProfile from "../pages/MyProfile";
 import MyAppointments from "../pages/MyAppointments";
+import ContactUs from "../pages/ContactUs";
 
 export const router = createBrowserRouter([
   {
@@ -52,6 +53,7 @@ export const router = createBrowserRouter([
       { path: "/registration", element:<Registration/>  },
       {path:"/myProfile",element:<MyProfile/>},
       { path:"/myAppointments",element:<MyAppointments/>},
+      { path:"/contactUs",element:<ContactUs/>},
       // { path: "/hospital/:hospitalId", element: <HomePage /> },
       { path: "/hospital/:hospitalId", element: <HospitalBody /> },
       { path: "/hospital/:hospitalId/doctors", element: <Doctors /> },

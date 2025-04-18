@@ -507,7 +507,7 @@ const Navbar = ({ setSearchQuery, searchQuery }) => {
                 )}
               </div>
 
-              <a href="/about" className="font-bold hover:text-green-200">About Us</a>
+              <a href="/contactUs" className="font-bold hover:text-green-200">Contact Us</a>
 
               <div className="relative">
                 <button onClick={() => setIsProfileOpen(!isProfileOpen)} className="flex items-center space-x-1">
