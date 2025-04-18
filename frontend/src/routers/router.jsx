@@ -39,6 +39,8 @@ import LoginPage from "../pages/LoginPage";
 import Doctors from "../pages/Doctors";
 import About from "../pages/About";
 import Contact from "../pages/Contact";
+import MyProfile from "../pages/MyProfile";
+import MyAppointments from "../pages/MyAppointments";
 
 export const router = createBrowserRouter([
   {
@@ -48,6 +50,8 @@ export const router = createBrowserRouter([
       { path: "/", element: <HomePage /> },
       { path: "/login", element:<LoginPage/> }, // Add the login page
       { path: "/registration", element:<Registration/>  },
+      {path:"/myProfile",element:<MyProfile/>},
+      { path:"/myAppointments",element:<MyAppointments/>},
       // { path: "/hospital/:hospitalId", element: <HomePage /> },
       { path: "/hospital/:hospitalId", element: <HospitalBody /> },
       { path: "/hospital/:hospitalId/doctors", element: <Doctors /> },

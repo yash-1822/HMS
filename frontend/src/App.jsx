@@ -41,6 +41,10 @@
 
 // export default App;
 
+
+
+
+
 import { Outlet, useLocation } from "react-router-dom";
 import { useState,useEffect } from "react";
 import "./App.css";
@@ -53,7 +57,7 @@ import HospitalNavbar from "./components/hospitalNavbar";
 function App() {
   const location = useLocation();
   const [searchQuery, setSearchQuery] = useState("");
-  const [city, setCity] = useState(localStorage.getItem("userAddress") || "");
+  const [city, setCity] = useState(localStorage.getItem("userCity") || "");
 
   // Determine page type
   const isHospitalPage = location.pathname.startsWith("/hospital/");
@@ -62,17 +66,19 @@ function App() {
   useEffect(() => {
     // Update city from localStorage whenever it changes
     const storedCity = localStorage.getItem("userAddress");
+    console.log("stored city is",storedCity)
     if (storedCity) {
       setCity(storedCity);
     }
   }, []);
+
 
   return (
     <>
       <ToastContainer position="top-center" />
 
       {/* Show Navbar if not on login/register pages */}
-      {!isLoginOrRegister && (isHospitalPage ? <HospitalNavbar /> : <Navbar setSearchQuery={setSearchQuery} searchQuery={searchQuery} />)}
+      {!isLoginOrRegister && (isHospitalPage ? <HospitalNavbar /> : <Navbar setSearchQuery={setSearchQuery} searchQuery={searchQuery} city={city} setCity={setCity}/>)}
 
       {/* Main content */}
       <main className="">
