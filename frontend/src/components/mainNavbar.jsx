@@ -586,11 +586,11 @@ const Navbar = ({ setSearchQuery, searchQuery }) => {
             </div>
 
             <div className="p-5 space-y-4">
-              <a href="/profile" className="flex items-center space-x-2 text-lg hover:text-green-600">
+              <a href="/myProfile" className="flex items-center space-x-2 text-lg hover:text-green-600">
                 <FaUser />
                 <span>My Profile</span>
               </a>
-              <a href="/appointments" className="flex items-center space-x-2 text-lg hover:text-green-600">
+              <a href="/myAppointments" className="flex items-center space-x-2 text-lg hover:text-green-600">
                 <FaCalendarAlt />
                 <span>My Appointments</span>
               </a>

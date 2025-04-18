@@ -434,7 +434,7 @@ const Appointment = () => {
   return docInfo && (
     <div className="w-full max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
       {isModalOpen && (
-        <div className="fixed inset-0 z-50 bg-gray-600 bg-opacity-50 flex items-center justify-center">
+        <div className="fixed inset-0 z-50 backdrop-blur bg-opacity-50 flex items-center justify-center">
           <div className="bg-white rounded-2xl shadow-xl p-6 w-80 text-center">
             <h3 className="text-xl font-semibold text-gray-800 mb-4">Choose Payment Method</h3>
             <div className="space-y-4">
