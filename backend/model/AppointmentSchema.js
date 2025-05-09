@@ -33,7 +33,7 @@ const appointmentSchema = new mongoose.Schema({
   cancelled: { type: Boolean, default: false },
   payment: { type: Boolean, default: false },
   isCompleted: { type: Boolean, default: false },
-  age: { type: Number, required: true },  
+  age: { type: Number, default:25 },  
   name:{type:String,required:true},
   phone: { type: String, required: true }, 
 });

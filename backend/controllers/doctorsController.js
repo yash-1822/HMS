@@ -28,15 +28,6 @@ const getDoctors = async (req, res) => {
 };
 
 
-// const getAllDoctors = async(req,res) => {
-//   try {
-//     const doctors = await Doctor.find().populate("hospital"); // Fetch all doctors
-//     res.status(200).json(doctors);
-// } catch (error) {
-//     console.error("Error fetching doctors:", error);
-//     res.status(500).json({ message: "Server Error" });
-// }
-// }
 
 
 const getDoctorsByHospitalId = async(req,res) => {
@@ -91,32 +82,28 @@ const getDoctorsByCity = async (req, res) => {
 const addAppointment = async (req, res) => {
   try {
     const {
-      userEmail,
-      slotDate,
-      slotTime,
+      email,
+      date,
+      slot,
       docData,
       amount,
-      cancelled,
+      phone,
+      patientName,
       payment,
-      isCompleted,
     } = req.body;
 
-    // Validation (optional)
-    if (!userEmail || !slotDate || !slotTime || !docData || !amount) {
-      return res
-        .status(400)
-        .json({ success: false, message: "All required fields must be filled." });
-    }
+
+ 
 
     const newAppointment = new appointmentModel({
-      userEmail,
-      slotDate,
-      slotTime,
+      userEmail:email,
+      slotDate:date,
+      slotTime:slot,
       docData,
+      phone,
+      name:patientName,
       amount,
-      cancelled,
-      payment,
-      isCompleted,
+      payment
     });
 
     await newAppointment.save();
@@ -191,4 +178,38 @@ const getRelatedDoctors = async(req,res) => {
 
 
 
-module.exports = {addAppointment,getDoctors,getDoctorsByCity,getUniqueSpecialities,getDoctorById,getRelatedDoctors,getDoctorsByHospitalId}
+const getBookedSlots = async (req, res) => {
+  const { doctorId } = req.params;
+  const { date } = req.query;
+  const formattedDate = date.replace(/-/g, '/');
+
+  console.log("formattedDate is",formattedDate);
+
+  try {
+    // Check if doctor exists
+    const doctor = await Doctor.findById(doctorId);
+    if (!doctor) return res.status(404).json({ message: 'Doctor not found' });
+
+
+    // const appointments = await appointmentModel.find({ "docData.email": doctorEmail })
+    // .select('slotDate slotTime -_id')
+    // .lean();
+    const appointments = await appointmentModel.find({ "docData.email": doctor.email})
+
+    const bookedSlots = appointments
+      .filter(app => app.slotDate === formattedDate)
+      .map(app => app.slotTime);
+
+    console.log("booked slots are:",bookedSlots);  
+
+    return res.status(200).json(bookedSlots);
+  } catch (error) {
+    console.error('Error fetching doctor appointments:', error);
+    return res.status(500).json({ message: 'Internal server error' });
+  }
+};
+
+
+
+
+module.exports = {getBookedSlots,addAppointment,getDoctors,getDoctorsByCity,getUniqueSpecialities,getDoctorById,getRelatedDoctors,getDoctorsByHospitalId}

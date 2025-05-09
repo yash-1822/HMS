@@ -115,6 +115,8 @@ const Login = () => {
       if (data.success) {
         const { token, role,user } = data;
 
+        console.log("data is:",token,role,user)
+
         if (role === 'doctor') {
           localStorage.setItem('dToken', token);
           setDToken(token);
@@ -124,10 +126,10 @@ const Login = () => {
           localStorage.setItem('aToken', token);
           setAToken(token);
           navigate('/admin/dashboard');
-        } else if (role === 'patient') {
-          localStorage.setItem('aToken', token);
-          setAToken(token);
-          navigate('/admin-dashboard');
+        } else if (role === 'super_admin') {
+          localStorage.setItem('sToken', token);
+          setSToken(token);
+          // navigate('/admin/dashboard');
         }
         else{
           toast.error("Unsupported role");

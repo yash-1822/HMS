@@ -16,7 +16,9 @@ import DoctorAppointment from './pages/Doctor/DoctorAppointment';
 import DoctorProfile from './pages/Doctor/DoctorProfile';
 import DashboardHospital from './pages/SuperAdmin/DashboardHospital';
 import Hospitals from './pages/SuperAdmin/Hospitals';
+import HospitaDetails from './pages/SuperAdmin/HospitalDetails'
 import { SuperAdminContext } from './context/SuperAdminContext';
+import HospitalDetails from './pages/SuperAdmin/HospitalDetails';
 
 const App = () => {
   const { aToken, setAToken } = useContext(AdminContext);
@@ -50,8 +52,10 @@ const App = () => {
 
           {/* Super Admin Routes */}
 
-          <Route path="/admin/dashboard" element={<DashboardHospital />} />
-          <Route path="/admin/hospitals" element={<Hospitals/>} />
+          <Route path="/superadmin/dashboard" element={<DashboardHospital />} />
+          <Route path="/superadmin/hospitals" element={<Hospitals/>} />
+          <Route path="/superadmin/hospital/:hospitalId" element={<HospitalDetails/>}/>
+          {/* /admin/hospitals/${hospital._id} */}
           {/* <Route path="/" element={<Dashboard />} /> */}
         </Routes>
       </div>

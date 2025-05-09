@@ -117,11 +117,11 @@ const AllAppointments = () => {
   }, [aToken, getAllAppointments]);
 
   return (
-    <div className="w-full max-w-6xl m-5">
+    <div className="w-full max-w-6xl m-5 ">
       <p className="mb-3 text-lg font-medium text-center">All Appointments</p>
 
       {/* Latest Appointments Summary Section */}
-      <div className="bg-white mb-6 rounded border border-gray-300">
+      <div className="bg-white mb-6 rounded border border-gray-300 h-[550px] overflow-y-scroll">
         {/* <div className="flex items-center gap-2.5 px-4 py-4 border-b border-gray-300 bg-gray-100 rounded-t">
           <img className="font-semibold" src={assets.list_icon} alt="icon" />
           <p className="font-semibold text-gray-700">Latest Bookings</p>
@@ -145,11 +145,11 @@ const AllAppointments = () => {
                 key={index}
               >
                 <div className="flex items-center gap-2">
-                  <img
+                  {/* <img
                     className="rounded-full w-8 h-8 object-cover"
                     src={item.docData?.image || assets.user_icon}
                     alt="doc"
-                  />
+                  /> */}
                   <p className="text-gray-800 font-medium">{item.name}</p>
                 </div>
 

@@ -1,9 +1,8 @@
 import React, { createContext, useContext, useState } from 'react';
 
-const HospitalContext = createContext();
+const HospitalContext = createContext(undefined);
 
 export const HospitalProvider = ({ children }) => {
-  const [hToken, setHToken] = useState(localStorage.getItem('hToken')?localStorage.getItem('HToken'):'')
   const [hospitals, setHospitals] = useState([
     {
       id: '1',

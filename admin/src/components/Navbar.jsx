@@ -1,12 +1,18 @@
 import React, { useContext } from "react";
 import { AdminContext } from "../context/AdminContext";
 import { DoctorContext } from "../context/DoctorContext";
+import {SuperAdminContext} from "../context/SuperAdminContext"
 import { useNavigate } from "react-router-dom";
 import { FaHospital } from "react-icons/fa";
 
 const Navbar = () => {
     const { aToken, setAToken } = useContext(AdminContext);
     const { dToken, setDToken } = useContext(DoctorContext);
+    
+      const {
+        sToken,
+        setSToken,
+      } = useContext(SuperAdminContext);
     const navigate = useNavigate();
 
     const logout = () => {
@@ -17,6 +23,10 @@ const Navbar = () => {
         if (dToken) {
             setDToken('');
             localStorage.removeItem("dToken");
+        }
+        if (sToken) {
+            setSToken('');
+            localStorage.removeItem("sToken");
         }
         navigate("/"); // Ensure navigation happens AFTER state update
     };
@@ -29,7 +39,7 @@ const Navbar = () => {
                     <span>MediCare</span>
                 </a>
                 <p className="border px-2.5 py-0.5 rounded-full border-gray-500 text-gray-600">
-                    {aToken ? "Admin" : dToken ? "Doctor" : ""}
+                    {aToken ? "Admin" : dToken ? "Doctor" : sToken ? "SuperAdmin" : ""}
                 </p>
             </div>
             <button onClick={logout} className="bg-green-400 text-white text-sm px-10 py-2 rounded-full">

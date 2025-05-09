@@ -20,7 +20,7 @@ const DoctorAppointment = () => {
 
     const getAppointments = async () => {
       try {
-        const res = await fetch(`${backendUrl}/adminDoctor/getAppointments`, {
+        const res = await fetch(`${backendUrl}/adminDoctor/getAppointmentsAll`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json'

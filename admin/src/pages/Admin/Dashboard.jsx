@@ -246,7 +246,7 @@ const Dashboard = () => {
       </div>
 
       {/* Latest Bookings */}
-      <div className="bg-white mt-10 rounded border border-gray-300">
+      <div className="bg-white mt-10 rounded border border-gray-300 h-[465px] overflow-y-scroll">
         <div className="flex items-center gap-2.5 px-4 py-4 border-b border-gray-300 bg-gray-100 rounded-t">
           <img className="font-semibold" src={assets.list_icon} alt="" />
           <p className="font-semibold text-gray-700">Latest Bookings</p>

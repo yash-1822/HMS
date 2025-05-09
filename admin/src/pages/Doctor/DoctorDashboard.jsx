@@ -139,10 +139,17 @@ const DoctorDashboard = () => {
   }
 
   const fetchAppointmentStats = async () => {
-    // setLoading(true);
-    // setError(null);
     try {
-      const res = await axios.get(`${backendUrl}/adminDoctor/appointment-stats`);
+
+      const token = localStorage.getItem('dToken'); // or wherever you store it
+
+    const res = await axios.get(`${backendUrl}/adminDoctor/appointment-stats`, {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    });
+
+      // const res = await axios.get(`${backendUrl}/adminDoctor/appointment-stats`);
       console.log("respnse is",res);
       if (res.data.success) {
         setStats({
@@ -231,7 +238,7 @@ const DoctorDashboard = () => {
 
 
 
-        <div className="bg-white">
+        <div className="bg-white h-[460px] overflow-y-auto">
           <div className="flex items-center gap-2.5 px-4 py-4 mt-10 rounded-t border border-gray-300">
             <img className="font-semibold" src={assets.list_icon} alt="" />
             <p>Latest Bookings</p>

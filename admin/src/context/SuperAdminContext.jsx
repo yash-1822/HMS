@@ -1,11 +1,12 @@
 import axios from "axios";
-import { createContext, useState } from "react";
+import { createContext, useState,useEffect } from "react";
 import {toast} from 'react-toastify'
 
 export const SuperAdminContext = createContext();
 
 const SuperAdminContextProvider = (props) => {
     const backendUrl = import.meta.env.VITE_BACKEND_URL;
+    const [hospitals, setHospitals] = useState([]);
 
     // ✅ Fix destructuring
     const [sToken, setSToken] = useState(localStorage.getItem('sToken') || '');
@@ -13,7 +14,25 @@ const SuperAdminContextProvider = (props) => {
     const [dashData, setDashData] = useState(false)
     const [profileData, setProfileData] = useState(false)
 
-    console.log("stoken is:",sToken);
+
+    const fetchHospitals = async () => {
+        try {
+          const { data } = await axios.get(`${backendUrl}/superadmin/getAllHospitals`);
+          if (data.success) {
+            setHospitals(data.hospitals || []);
+          } else {
+            toast.error(data.message);
+          }
+        } catch (error) {
+          console.error(error);
+          toast.error('Failed to fetch hospital data');
+        }
+    };
+
+
+    useEffect(() => {
+        fetchHospitals();
+      }, []);
 
     
     const getDashData = async () => {
@@ -54,10 +73,12 @@ const SuperAdminContextProvider = (props) => {
         }
     }
 
+
     const value = {
-        sToken, setSToken,
-        backendUrl,  // ✅ Ensure backendUrl is included
-        dashData, setDashData,
+        sToken, 
+        setSToken,
+        backendUrl,
+        dashData, setDashData,hospitals,setHospitals,
         getDashData,
         profileData,setProfileData,
         getProfileData,

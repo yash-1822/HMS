@@ -3,7 +3,7 @@ import { assets } from '../assets/assets';
 
 const MyProfile = () => {
   const [userData, setUserData] = useState({
-    name: "Evado Veedu",
+    name: "basha",
     image: assets.user_icon, // Use user icon instead of profile_pic
     email: 'example@gmail.com',
     phone: '+91 1234567890',

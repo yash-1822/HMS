@@ -1,147 +1,3 @@
-// const axios = require("axios");
-// const jwt = require("jsonwebtoken");
-// const User = require("../model/UserSchema");
-
-
-// const loginDoctor = async (req, res) => {
-//   try {
-//     const { email, password } = req.body;
-
-//     const userDetails = await User.findOne({ email });
-//     if (!userDetails) {
-//       return res.status(400).json({ error: "User not found" });
-//     }
-
-//     const isMatch = await bcrypt.compare(password, userDetails.password);
-//     if (!isMatch) {
-//       return res.status(400).json({ error: "Incorrect password" });
-//     }
-
-//     const tokenData = {
-//       _id: userDetails._id,
-//       email: userDetails.email,
-//     };
-
-//     const token = jwt.sign(tokenData, process.env.SECRET_KEY, {
-//       expiresIn: "8h",
-//     });
-
-//     res.status(200).json({
-//       message: "Login successful",
-//       token, // ⬅️ send token in response body
-//       user: {
-//         _id: userDetails._id,
-//         email: userDetails.email,
-//         name: userDetails.name,
-//       },
-//       expires: new Date(Date.now() + 1000 * 60 * 60 * 8),
-//       success: true,
-//       error: false,
-//     });
-//   } catch (error) {
-//     console.error("Login error:", error);
-//     return res.status(500).json({ error: "Internal Server Error" });
-//   }
-// };
-
-// module.exports = login;
-
-
-
-
-
-// const User = require("../model/UserSchema");
-// const Appointment = require("../model/AppointmentSchema")
-// const Doctor = require("../model/DoctorSchema");
-// const jwt = require("jsonwebtoken");
-// const bcrypt = require("bcryptjs");
-
-// const login = async (req, res) => {
-//   try {
-//     const { email, password } = req.body;
-
-//     // First: Check in User collection
-//     const userDetails = await Doctor.findOne({ email });
-
-//     if (userDetails) {
-//       const isMatch = await bcrypt.compare(password, userDetails.password);
-//       if (!isMatch) {
-//         return res.status(400).json({ error: "Incorrect password" });
-//       }
-
-//       const tokenData = {
-//         _id: userDetails._id,
-//         email: userDetails.email,
-//         role: userDetails.role,
-//       };
-
-//       const token = jwt.sign(tokenData, process.env.SECRET_KEY, {
-//         expiresIn: "8h",
-//       });
-
-//       return res.status(200).json({
-//         message: "Login successful",
-//         token,
-//         role: 'doctor',
-//         user: {
-//           _id: userDetails._id,
-//           email: userDetails.email,
-//           name: userDetails.name,
-//         },
-//         expires: new Date(Date.now() + 1000 * 60 * 60 * 8),
-//         success: true,
-//         error: false,
-//       });
-//     }
-
-//     // Second: Check in Doctor collection
-//     const doctorDetails = await Doctor.findOne({ email });
-//     if (!doctorDetails) {
-//       return res.status(400).json({ error: "User not found" });
-//     }
-
-//     // Assuming doctor uses a default password or a shared one
-//     const doctorDefaultPassword = process.env.DOCTOR_DEFAULT_PASSWORD;
-//     const isDoctorPasswordMatch = password === doctorDefaultPassword;
-
-//     if (!isDoctorPasswordMatch) {
-//       return res.status(400).json({ error: "Incorrect password" });
-//     }
-
-//     const tokenData = {
-//       _id: doctorDetails._id,
-//       email: doctorDetails.email,
-//       role: "doctor",
-//     };
-
-//     const token = jwt.sign(tokenData, process.env.SECRET_KEY, {
-//       expiresIn: "8h",
-//     });
-
-//     return res.status(200).json({
-//       message: "Login successful",
-//       token,
-//       role: "doctor",
-//       user: {
-//         _id: doctorDetails._id,
-//         email: doctorDetails.email,
-//         name: doctorDetails.name,
-//       },
-//       expires: new Date(Date.now() + 1000 * 60 * 60 * 8),
-//       success: true,
-//       error: false,
-//     });
-//   } catch (error) {
-//     console.error("Login error:", error);
-//     return res.status(500).json({ error: "Internal Server Error" });
-//   }
-// };
-
-
-
-
-
-
 const jwt = require("jsonwebtoken");
 const validator = require("validator");
 const bcrypt = require("bcryptjs");
@@ -150,6 +6,7 @@ const Doctor = require("../model/DoctorSchema");
 // const User = require("../models/User");
 const HospitalAdmin = require("../model/hospitalAdminSchema")
 const Appointment = require("../model/AppointmentSchema")
+const SuperAdmin = require('../model/superAdmin')
 
 const login = async (req, res) => {
   try {
@@ -157,10 +14,13 @@ const login = async (req, res) => {
     console.log(req.body);
 
     // 1️⃣ Check in Hospital collection
-    const hospital = await Hospital.findOne({ email });
+    
     const doctor = await Doctor.findOne({ email });
     const hospitalAdmin = await HospitalAdmin.findOne({ email })
+    const superAdmin = await SuperAdmin.findOne({ email })
+    const hospital = await Hospital.findOne({ email });
 
+    console.log(doctor,hospitalAdmin,superAdmin,hospital)
 
 
     if (doctor) {
@@ -219,16 +79,15 @@ const login = async (req, res) => {
       });
     }
 
-    // 3️⃣ Check in Hospital Admin/User collection
-    const user = await User.findOne({ email });
-    if (user) {
-      const isMatch = await bcrypt.compare(password, user.password);
+
+    if (superAdmin) {
+      const isMatch = await bcrypt.compare(password, superAdmin.password);
       if (!isMatch) {
         return res.status(400).json({ error: "Incorrect password" });
       }
 
       const token = jwt.sign(
-        { _id: user._id, email: user.email, role: user.role },
+        { _id: superAdmin._id, email: superAdmin.email, role: superAdmin.role },
         process.env.SECRET_KEY,
         { expiresIn: "8h" }
       );
@@ -236,11 +95,11 @@ const login = async (req, res) => {
       return res.status(200).json({
         message: "Login successful",
         token,
-        role: user.role,
+        role: superAdmin.role,
         user: {
-          _id: user._id,
-          email: user.email,
-          name: user.name,
+          _id: superAdmin._id,
+          email: superAdmin.email,
+          name: superAdmin.name,
         },
         expires: new Date(Date.now() + 1000 * 60 * 60 * 8),
         success: true,
@@ -337,6 +196,21 @@ const getAppointments = async(req,res) => {
   console.log("email is:",email)
 
   try {
+    const appointments = await Appointment.find({ 'docData.email': email }) .sort({ slotDate: -1 }) // Optional: sorts by latest first
+    .limit(6); ;
+    res.status(200).json({ success: true, appointments});
+  } catch (err) {
+    console.error("Error fetching appointments:", err);
+    res.status(500).json({ success: false, message: 'Server error' });
+  }
+}
+
+
+const getAppointmentsAll = async(req,res) => {
+  const { email } = req.body; // Get email from the request body
+  console.log("email is:",email)
+
+  try {
     const appointments = await Appointment.find({ 'docData.email': email });
     res.status(200).json({ success: true, appointments });
   } catch (err) {
@@ -403,9 +277,58 @@ const completeAppointment = async (req,res) => {
 
 
 const getAppointmentStats = async (req, res) => {
+  // try {
+  //   // Fetch all appointments
+  //   const appointments = await Appointment.find();
+
+  //   // Total earnings from completed appointments
+  //   const totalEarnings = appointments
+  //     .filter(app => app.isCompleted)
+  //     .reduce((sum, app) => sum + (app.amount || 0), 0);
+
+  //   // Total number of appointments
+  //   const totalAppointments = appointments.length;
+
+  //   // Unique patient emails (assuming userData.email exists)
+  //   const uniquePatientEmails = new Set(
+  //     appointments.map(app => app.userEmail).filter(Boolean)
+  //   );
+
+  //   console.log(uniquePatientEmails.size)
+  //   const totalPatients = uniquePatientEmails.size;
+
+  //   // Send response
+  //   return res.status(200).json({
+  //     success: true,
+  //     totalEarnings,
+  //     totalAppointments,
+  //     totalPatients
+  //   });
+
+  // } catch (error) {
+  //   console.error("Error getting appointment stats:", error);
+  //   res.status(500).json({ success: false, message: "Server Error" });
+  // }
+
+
   try {
-    // Fetch all appointments
-    const appointments = await Appointment.find();
+    const authHeader = req.headers.authorization;
+
+    if (!authHeader || !authHeader.startsWith('Bearer ')) {
+      return res.status(401).json({ success: false, message: 'Authorization token missing or invalid' });
+    }
+
+    const token = authHeader.split(' ')[1];
+    const decoded = jwt.verify(token, process.env.SECRET_KEY); // Replace with your actual secret
+
+    const doctorEmail = decoded.email; // assuming token has email
+    if (!doctorEmail) {
+      return res.status(400).json({ success: false, message: 'Invalid token: no email found' });
+    }
+
+    // Fetch appointments for the doctor
+    const appointments = await Appointment.find( { 'docData.email': doctorEmail } );
+    console.log("appointmrnts",appointments)
 
     // Total earnings from completed appointments
     const totalEarnings = appointments
@@ -415,15 +338,13 @@ const getAppointmentStats = async (req, res) => {
     // Total number of appointments
     const totalAppointments = appointments.length;
 
-    // Unique patient emails (assuming userData.email exists)
+    // Unique patient emails
     const uniquePatientEmails = new Set(
       appointments.map(app => app.userEmail).filter(Boolean)
     );
 
-    console.log(uniquePatientEmails.size)
     const totalPatients = uniquePatientEmails.size;
 
-    // Send response
     return res.status(200).json({
       success: true,
       totalEarnings,
@@ -452,7 +373,10 @@ const addDoctor = async (req, res) => {
 
     const hospitalAdminId = decoded._id;
 
+    console.log(decoded)
+
     const hospitalAdmin = await HospitalAdmin.findById(hospitalAdminId).select("hospital");
+    console.log("id is",hospitalAdmin.hospital)
 
     if (!hospitalAdmin) {
       return res.status(404).json({ success: false, message: "Hospital admin not found" });
@@ -511,7 +435,8 @@ const addDoctor = async (req, res) => {
       bodyPart,
       noOfOps:operations,
       availability,
-      hospital:hospitalAdmin
+      // hospital:hospitalAdmin
+      hospital:hospitalAdmin.hospital
       // date: Date.now(),
     };
 
@@ -528,4 +453,4 @@ const addDoctor = async (req, res) => {
 
 
 
-module.exports = {login,verifyUser,addDoctor,getAppointmentStats,updateDayAvailability,getAppointments,cancelAppointment,completeAppointment};
+module.exports = {login,getAppointmentsAll,verifyUser,addDoctor,getAppointmentStats,updateDayAvailability,getAppointments,cancelAppointment,completeAppointment};

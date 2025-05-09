@@ -15,6 +15,20 @@ mongoose.connect(process.env.MONGODB_URI)
     console.log("Mongodb not connected...",err);
   });
 
+
+  const updatePendingStatus = async () => {
+    try {
+      const result = await Hospital.updateMany({}, { isPending: true });
+      console.log(`✅ Updated ${result.modifiedCount} hospital(s) with isPending: true`);
+    } catch (err) {
+      console.error("❌ Error updating hospitals:", err);
+    }
+  };
+
+  // updatePendingStatus()
+
+
+
   const updatePasswords = async () => {
     try {
       const doctors = await Doctor.find();

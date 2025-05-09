@@ -57,12 +57,6 @@ const getHospitalData = async(req,res) => {
 }
 
 const getUniqueSpecialities = async (req, res) => {
-  // try {
-  //   const doctors = await Doctor.find({}, "specialty"); // Fetch only the specialization field
-  //   const specializations = [...new Set(doctors.map(doc => doc.specialty))];
-
-  //   res.status(200).json({ specializations });
-  // } 
 
   const {hospitalId} = req.params;
 

@@ -83,6 +83,7 @@ const doctorRoutes = require('../routes/doctorRoutes');
 //adminRoutes
 const adminDoctorRoutes = require('../routes/adminDoctorsRoute')
 const hospitalAdminRoutes = require('../routes/hospitalAdminRoutes')
+const superAdminRoutes = require('../routes/superAdminRoutes')
 
 
 
@@ -94,6 +95,7 @@ app.use('/doctors', doctorRoutes);
 //admin
 app.use('/adminDoctor',adminDoctorRoutes);
 app.use('/hospitalAdmin',hospitalAdminRoutes)
+app.use('/superAdmin',superAdminRoutes)
 
 
 async function startServer() {

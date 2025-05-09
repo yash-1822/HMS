@@ -9,5 +9,9 @@ router.post('/login',patientController.login);
 router.post('/otp',patientController.sendOTP)
 router.get('/verify-token',verifyToken,patientController.checkToken)
 router.post('/logout',verifyToken,patientController.logout)
+router.post('/send-confirmation-mail', patientController.sendConfirmationMail); 
+router.get('/get-user-details',patientController.getUserDetails)
+router.get('/get-appointments',patientController.getAppointments);
+router.delete('/cancel-appointment/:id',patientController.cancelAppointment)
 
 module.exports = router;
