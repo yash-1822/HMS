@@ -13,5 +13,8 @@ router.post('/send-confirmation-mail', patientController.sendConfirmationMail);
 router.get('/get-user-details',patientController.getUserDetails)
 router.get('/get-appointments',patientController.getAppointments);
 router.delete('/cancel-appointment/:id',patientController.cancelAppointment)
+router.get('/getUserDetailsWhileLogin',patientController.getUserDetailsWhileLogin)
+router.post('/updateUserDetails',patientController.updateUserDetails);
+router.post('/updateUserImage',patientController.updateUserImage)
 
 module.exports = router;

@@ -16,6 +16,10 @@ mongoose.connect(process.env.MONGODB_URI)
   });
 
 
+
+  
+
+
   const updatePendingStatus = async () => {
     try {
       const result = await Hospital.updateMany({}, { isPending: true });

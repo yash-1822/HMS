@@ -261,6 +261,7 @@ const getAppointments = async(req,res) => {
     
 }
 
+
 const getUserDetails = async(req,res) => {
     try {
         const token = req.headers.authorization;
@@ -287,6 +288,116 @@ const getUserDetails = async(req,res) => {
 }
 
 
+const getUserDetailsWhileLogin = async(req,res) => {
+  try {
+    const authHeader = req.headers.authorization;
+    const token = authHeader && authHeader.split(' ')[1]; // Removes 'Bearer'
+    
+      console.log("token is",token)
+  
+      if (!token) {
+        return res.status(401).json({ message: "No token provided." });
+      }
+  
+      const decoded = jwt.verify(token,process.env.SECRET_KEY);
+  
+      const user = await User.findById(decoded._id)
+  
+      if (!user) {
+        return res.status(404).json({ message: "User not found." });
+      }
+  
+      res.status(200).json(user);
+    } catch (err) {
+      console.error("Token decode error:", err);
+      res.status(401).json({ message: "Invalid token." });
+    }
+}
+
+const updateUserDetails = async(req,res) => {
+  try {
+
+    const authHeader = req.headers.authorization;
+    const token = authHeader && authHeader.split(' ')[1]; // Removes 'Bearer'
+  
+      if (!token) {
+        return res.status(401).json({ message: "No token provided." });
+      }
+  
+      const decoded = jwt.verify(token,process.env.SECRET_KEY);
+  
+      const user = await User.findById(decoded._id)
+  
+      if (!user) {
+        return res.status(404).json({ message: "User not found." });
+      }
+    const { email, phone, gender, age, address } = req.body;
+
+    const updatedPatient = await User.findByIdAndUpdate(
+      user,
+      {
+        email,
+        phone,
+        gender,
+        age,
+        address,
+        imageUrl
+      },
+      { new: true }
+    );
+
+    if (!updatedPatient) {
+      return res.status(404).json({ message: 'Patient not found' });
+    }
+
+    res.status(200).json({ message: 'Profile updated successfully', data: updatedPatient });
+  } catch (error) {
+    console.error('Error updating profile:', error);
+    res.status(500).json({ message: 'Server error while updating profile' });
+  }
+
+}
+
+
+const updateUserImage = async(req,res) => {
+  try {
+
+     const authHeader = req.headers.authorization;
+    const token = authHeader && authHeader.split(' ')[1]; // Removes 'Bearer'
+  
+      if (!token) {
+        return res.status(401).json({ message: "No token provided." });
+      }
+  
+      const decoded = jwt.verify(token,process.env.SECRET_KEY);
+  
+      const userId = await User.findById(decoded._id)
+    const { imageUrl } = req.body;
+
+    if (!imageUrl) {
+      return res.status(400).json({ message: "Image URL is required" });
+    }
+
+    const user = await User.findByIdAndUpdate(
+      userId,
+      { imageUrl },
+      { new: true }
+    );
+
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    res.status(200).json({
+      message: "Profile image updated successfully",
+      imageUrl: user.profileImage,
+    });
+  } catch (error) {
+    console.error("Update image error:", error);
+    res.status(500).json({ message: "Server error" });
+  }
+}
+
 const cancelAppointment = async(req,res) => {
     try {
         const { id } = req.params;
@@ -298,4 +409,4 @@ const cancelAppointment = async(req,res) => {
       }
 }
 
-module.exports = { register,cancelAppointment,login,getAppointments, sendOTP,getUserDetails, checkToken, logout, sendConfirmationMail };
+module.exports = {updateUserImage,updateUserDetails,getUserDetailsWhileLogin, register,cancelAppointment,login,getAppointments, sendOTP,getUserDetails, checkToken, logout, sendConfirmationMail };
