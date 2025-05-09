@@ -15,13 +15,36 @@ const HospitalSlider = ({ selectedBodyPart }) => {
   const [loading, setLoading] = useState(true); // 👈 Add loading state
   const sliderRef = useRef(null);
 
+  const locationOptions = [
+    "Anantapur",
+    "Chittoor",
+    "East Godavari",
+    "Guntur",
+    "Kadapa",
+    "Krishna",
+    "Kurnool",
+    "Nellore",
+    "Prakasam",
+    "Srikakulam",
+    "Visakhapatnam",
+    "Vizianagaram",
+    "West Godavari",
+  ];
+
   console.log("city is from slider is:",city)
 
   useEffect(() => {
     const fetchHospitals = async () => {
       setLoading(true); // Start loading
       try {
-        const cityParam = city && city.trim() !== "" ? city : "all";
+        let cityParam = city && city.trim() !== "" ? city : "all";
+        if(locationOptions.includes(cityParam)){
+          cityParam = city
+        }
+        else{
+          cityParam = 'vijayawada'
+        }
+      
         const response = await fetch(`http://localhost:8000/hospital/hospitals/${cityParam}`);
         const data = await response.json();
         setHospitals(data);

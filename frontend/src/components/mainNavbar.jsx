@@ -32,7 +32,7 @@ const locationOptions = [
   "West Godavari",
 ];
 
-const Navbar = ({ setSearchQuery, searchQuery, city,setCity={setCity} }) => {
+const Navbar = ({ setSearchQuery, searchQuery, city,setCity }) => {
   const navigate = useNavigate();
 
   console.log("city is", city);
@@ -45,9 +45,21 @@ const Navbar = ({ setSearchQuery, searchQuery, city,setCity={setCity} }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [selectedLocation, setSelectedLocation] = useState("");
   const [isLocationDropdownOpen, setIsLocationDropdownOpen] = useState(false);
-  const prioritizedLocations = city
-    ? [city, ...locationOptions.filter((loc) => loc !== city)]
-    : locationOptions;
+  // const prioritizedLocations = city
+  //   ? [city, ...locationOptions.filter((loc) => loc !== city)]
+  //   : locationOptions;
+  const prioritizedLocations = (() => {
+    if (!city) return locationOptions;
+    if (locationOptions.includes(city)) {
+      return [city, ...locationOptions.filter((loc) => loc !== city)];
+    } else {
+      return ["Vijayawada", ...locationOptions.filter((loc) => loc !== "Vijayawada")];
+    }
+  })();
+
+
+  console.log("locations are:",prioritizedLocations);
+  
 
 
   const handleLogout = async () => {
@@ -92,7 +104,7 @@ const Navbar = ({ setSearchQuery, searchQuery, city,setCity={setCity} }) => {
       }
     };
 
-    checkAuth();
+    // checkAuth();
   }, []);
 
   useEffect(() => {
