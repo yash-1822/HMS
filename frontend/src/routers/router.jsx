@@ -1,34 +1,3 @@
-// import { createBrowserRouter } from "react-router-dom";
-// import App from "../App";
-// import HomePage from "../pages/mainHomePage";
-// import Appointment from "../components/Appointment";
-// import HospitalBody from "../pages/hospitalBody";
-// import Registration from "../pages/RegistrationPage";
-// import LoginPage from "../pages/LoginPage"; // Import Login Page
-// import Doctors from "../pages/Doctors";
-// import { AppContext } from "../context/AppContext";
-
-// export const router = createBrowserRouter([
-//   {
-//     path: "/",
-//     element: <App />,
-//     children: [
-//       { path: "/login", element:<LoginPage/> }, // Add the login page
-//       { path: "/Registration", element:<Registration/>  },
-//       { path: "/", element: <HomePage /> },
-//       { path: "/hospital/:id", element: <HomePage /> },
-//       { path: "/hospital/:id/hospitalBody", element: <HospitalBody /> },
-//       {path:"/hospital/:id/doctors",element:<Doctors/>},
-//       {path:"/hospital/:id/doctors/:id/appointment",element:<Appointment/>},
-//       {path:"/hospital/:id/about",element:<Doctors/>},
-//       {path:"/hospital/:id/contact",element:<Doctors/>},
-//     ],
-//   },
-// ]);
-
-
-
-
 import { createBrowserRouter } from "react-router-dom";
 import App from "../App";
 import HomePage from "../pages/mainHomePage";

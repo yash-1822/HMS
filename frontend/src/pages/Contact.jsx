@@ -14,12 +14,7 @@ const Contact = () => {
 useEffect(() => {
       const verifyToken = async () => {
         try {
-          // const response = await fetch("https://hms-backend-d7jp.onrender.com/patient/verify-token", {
-          //   method: "GET",
-          //   credentials: "include", // Ensures cookies are sent
-          // });
-
-
+         
           const token = localStorage.getItem("authToken");
 
         if (!token) {
@@ -52,32 +47,6 @@ useEffect(() => {
       verifyToken();
 }, [navigate, location.pathname]);
 
-    // useEffect(() => {
-    //   const verifyToken = async () => {
-    //     try {
-    //       const response = await fetch("https://hms-backend-d7jp.onrender.com/patient/verify-token", {
-    //         method:"get",
-    //         credentials: "include", // Ensures cookies are sent
-    //       });
-  
-    //       const data = await response.json();
-    //       console.log("Token verification response:", data);
-  
-    //       if (response.ok) {
-    //         setIsAuthenticated(true);
-    //       } else {
-    //         setIsAuthenticated(false);
-    //         navigate("/login"); // Redirect to login if token is invalid
-    //       }
-    //     } catch (error) {
-    //       console.error("Token verification failed:", error);
-    //       setIsAuthenticated(false);
-    //       navigate("/login");
-    //     }
-    //   };
-  
-    //   verifyToken();
-    // }, [navigate]);
   
   return (
     <div className="px-4 md:px-12 lg:px-55">
