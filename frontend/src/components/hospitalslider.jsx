@@ -14,6 +14,7 @@ const HospitalSlider = ({ selectedBodyPart }) => {
   const [seeMore, setSeeMore] = useState(false);
   const [loading, setLoading] = useState(true); // 👈 Add loading state
   const sliderRef = useRef(null);
+  const backendUrl = import.meta.env.VITE_BACKEND_URL
 
   const locationOptions = [
     "Anantapur",
@@ -45,7 +46,7 @@ const HospitalSlider = ({ selectedBodyPart }) => {
           cityParam = 'vijayawada'
         }
       
-        const response = await fetch(`https://hms-backend-d7jp.onrender.com/hospital/hospitals/${cityParam}`);
+        const response = await fetch(`${backendUrl}/hospital/hospitals/${cityParam}`);
         const data = await response.json();
         setHospitals(data);
       } catch (error) {

@@ -6,23 +6,18 @@ const About = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const [isAuthenticated, setIsAuthenticated] = useState(null);
-
+  const backendUrl = import.meta.env.VITE_BACKEND_URL
+  
   useEffect(() => {
     const verifyToken = async () => {
       try {
-        // const response = await fetch("https://hms-backend-d7jp.onrender.com/patient/verify-token", {
-        //   method: "GET",
-        //   credentials: "include",
-        // });
-
-
         const token = localStorage.getItem("authToken");
 
         if (!token) {
           throw new Error("Token not found");
         }
 
-        const response = await fetch("https://hms-backend-d7jp.onrender.com/patient/verify-token", {
+        const response = await fetch(`${backendUrl}/patient/verify-token`, {
           method: "GET",
           headers: {
             Authorization: `Bearer ${token}`, // ✅ Send token via Authorization header

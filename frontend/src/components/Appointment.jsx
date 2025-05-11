@@ -13,6 +13,7 @@ const Appointment = () => {
   const { doctorId,hospitalId } = useParams();
   const navigate = useNavigate();
   const location = useLocation();
+  const backendUrl = import.meta.env.VITE_BACKEND_URL
 
   const [payment,setPayment] = useState(false);
   const daysOfWeek = ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT'];
@@ -49,7 +50,7 @@ const handleSlotClick = (slot) => {
         const token = localStorage.getItem("authToken");
         if (!token) throw new Error("Token not found");
 
-        const response = await fetch("https://hms-backend-d7jp.onrender.com/patient/verify-token", {
+        const response = await fetch(`${backendUrl}/patient/verify-token`, {
           method: "GET",
           headers: {
             Authorization: `Bearer ${token}`,
@@ -77,7 +78,7 @@ const handleSlotClick = (slot) => {
   const fetchBookedAppointments = async () => {
     try {
       const token = localStorage.getItem("authToken");
-      const response = await fetch(`https://hms-backend-d7jp.onrender.com/doctors/${doctorId}/appointments?date=${selectedDate}`, {
+      const response = await fetch(`${backendUrl}/doctors/${doctorId}/appointments?date=${selectedDate}`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -105,7 +106,7 @@ const handleSlotClick = (slot) => {
     const fetchDoctor = async () => {
       try {
         const token = localStorage.getItem("authToken");
-        const response = await fetch(`https://hms-backend-d7jp.onrender.com/doctors/${doctorId}`, {
+        const response = await fetch(`${backendUrl}/doctors/${doctorId}`, {
           method: "GET",
           headers: {
             "Content-Type": "application/json",
@@ -220,7 +221,7 @@ const handleSlotClick = (slot) => {
 
       const token1 = localStorage.getItem("authToken");
 
-const userResponse = await fetch("https://hms-backend-d7jp.onrender.com/patient/get-user-details", {
+const userResponse = await fetch(`${backendUrl}/patient/get-user-details`, {
   method: "GET",
   headers: {
     Authorization: token1,
@@ -259,7 +260,7 @@ console.log("userdata is:",userData)
       console.log("appointmentData is",appointmentData);
   
       const token = localStorage.getItem("authToken");
-      const response = await fetch("https://hms-backend-d7jp.onrender.com/doctors/bookAppointment", {
+      const response = await fetch(`${backendUrl}/doctors/bookAppointment`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -284,7 +285,7 @@ console.log("userdata is:",userData)
         // generateNext7Days(docInfo, [...bookedSlots, { date: formattedDate, slot: selectedSlotTime }]);
 
   
-        await fetch("https://hms-backend-d7jp.onrender.com/patient/send-confirmation-mail", {
+        await fetch(`${backendUrl}/patient/send-confirmation-mail`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -314,7 +315,7 @@ console.log("userdata is:",userData)
   
     try {
       const token = localStorage.getItem("authToken");
-      const response = await fetch("https://hms-backend-d7jp.onrender.com/patient/send-confirmation-mail", {
+      const response = await fetch(`${backendUrl}/patient/send-confirmation-mail`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

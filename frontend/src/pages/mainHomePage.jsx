@@ -10,6 +10,7 @@ import { useState,useEffect } from "react";
 const HomePage = () => {
     const [selectedBodyPart, setSelectedBodyPart] = useState(null);
     const { searchQuery} = useOutletContext();
+    const backendUrl = import.meta.env.VITE_BACKEND_URL
     console.log("body part is:",selectedBodyPart);
 
 

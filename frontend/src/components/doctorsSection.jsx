@@ -9,13 +9,14 @@ const DoctorsSection = ({ selectedBodyPart, searchQuery, city }) => {
   const [seeMore, setSeeMore] = useState(false);
   const sliderRef = useRef(null);
   const [filteredDoctors, setFilteredDoctors] = useState([]);
+  const backendUrl = import.meta.env.VITE_BACKEND_URL
 
   useEffect(() => {
     const fetchDoctors = async () => {
       try {
         console.log("city from doctors section is", city);
         const cityParam = city && city.trim() !== "" ? city : "all";
-        const response = await fetch(`https://hms-backend-d7jp.onrender.com/doctors/getDoctorsByCity/${cityParam}`);
+        const response = await fetch(`${backendUrl}/doctors/getDoctorsByCity/${cityParam}`);
         const data = await response.json();
         setDoctors(data);
       } catch (error) {

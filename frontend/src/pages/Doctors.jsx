@@ -10,6 +10,7 @@ const Doctors = () => {
   const [selectedSpeciality, setSelectedSpeciality] = useState(null);
   const navigate = useNavigate();
   const { hospitalId } = useParams();
+  const backendUrl = import.meta.env.VITE_BACKEND_URL
 
   console.log("hospital id is", hospitalId)
 
@@ -26,7 +27,7 @@ const Doctors = () => {
           throw new Error("Token not found");
         }
 
-        const response = await fetch("https://hms-backend-d7jp.onrender.com/patient/verify-token", {
+        const response = await fetch(`${backendUrl}/patient/verify-token`, {
           method: "GET",
           headers: {
             Authorization: `Bearer ${token}`, // ✅ Send token via Authorization header
@@ -54,7 +55,7 @@ const Doctors = () => {
   useEffect(() => {
     const fetchDoctors = async () => {
       try {
-        const response = await fetch(`https://hms-backend-d7jp.onrender.com/doctors/getDoctorsByHospitalId/${hospitalId}`);
+        const response = await fetch(`${backendUrl}/doctors/getDoctorsByHospitalId/${hospitalId}`);
         if (!response.ok) throw new Error("Failed to fetch doctors");
 
         const data = await response.json();
@@ -68,7 +69,7 @@ const Doctors = () => {
     const fetchSpecialities = async () => {
       try {
         console.log("function is called")
-        const response = await fetch(`https://hms-backend-d7jp.onrender.com/hospital/getUniqueSpecialities/${hospitalId}`, {
+        const response = await fetch(`${backendUrl}/hospital/getUniqueSpecialities/${hospitalId}`, {
           method: "GET",
           headers: {
             "Authorization": `Bearer ${token}`,

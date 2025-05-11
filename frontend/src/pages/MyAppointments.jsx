@@ -5,7 +5,7 @@ import axios from 'axios';
 
 const MyAppointments = () => {
 
-
+  const backendUrl = import.meta.env.VITE_BACKEND_URL
   const [appointments, setAppointments] = useState([]);
 
   useEffect(() => {
@@ -13,7 +13,7 @@ const MyAppointments = () => {
       try {
         const token = localStorage.getItem('authToken'); // or however you store it
 
-        const res = await axios.get('https://hms-backend-d7jp.onrender.com/patient/get-appointments', {
+        const res = await axios.get(`${backendUrl}/patient/get-appointments`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -32,7 +32,7 @@ const MyAppointments = () => {
   const handleCancel = async (appointmentId) => {
     try {
       const token = localStorage.getItem('authToken');
-      await axios.delete(`https://hms-backend-d7jp.onrender.com/patient/cancel-appointment/${appointmentId}`, {
+      await axios.delete(`${backendUrl}/patient/cancel-appointment/${appointmentId}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },

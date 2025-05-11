@@ -5,12 +5,13 @@ const TopDoctors = ({ hospitalId }) => {
     const navigate = useNavigate();
     const [doctors, setDoctors] = useState([]);
     const [loading, setLoading] = useState(true); // Loader state
+    const backendUrl = import.meta.env.VITE_BACKEND_URL
 
     useEffect(() => {
         const fetchDoctors = async () => {
             try {
                 setLoading(true);
-                const response = await fetch(`https://hms-backend-d7jp.onrender.com/doctors/getDoctorsByHospitalId/${hospitalId}`);
+                const response = await fetch(`${backendUrl}/doctors/getDoctorsByHospitalId/${hospitalId}`);
                 if (!response.ok) throw new Error("Failed to fetch doctors");
 
                 const data = await response.json();

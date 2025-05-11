@@ -7,6 +7,7 @@ const ContactUs = () => {
   const [address, setAddress] = useState('');
   const [numDoctors, setNumDoctors] = useState('');
   const [documents, setDocuments] = useState([]);
+  const backendUrl = import.meta.env.VITE_BACKEND_URL
 
   // Handle file selection for documents
   const handleFileChange = (e) => {

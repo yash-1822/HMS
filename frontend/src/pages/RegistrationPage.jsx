@@ -8,6 +8,7 @@ import "react-toastify/dist/ReactToastify.css";
 
 export default function Registration() {
   const navigate = useNavigate();
+  const backendUrl = import.meta.env.VITE_BACKEND_URL
   const [formData, setFormData] = useState({
     name: "",
     phone: "",
@@ -65,7 +66,7 @@ export default function Registration() {
 
       console.log("Form Submitted Successfully", formData);
       try {
-        const response = await fetch("https://hms-backend-d7jp.onrender.com/patient/register", {
+        const response = await fetch(`${backendUrl}/patient/register`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",

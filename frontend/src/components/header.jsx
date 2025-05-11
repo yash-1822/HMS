@@ -10,6 +10,7 @@ import { useNavigate } from "react-router-dom";
 const Header = ({ hospitalId }) => {
   const [hospitalData, setHospitalData] = useState(null);
   const navigate = useNavigate(); 
+  const backendUrl = import.meta.env.VITE_BACKEND_URL
   const openGoogleMaps = () => {
     if (!hospitalData?.Place_name) {
       alert("Hospital location not available");
@@ -45,7 +46,7 @@ const Header = ({ hospitalId }) => {
     const fetchHospitalData = async () => {
       try {
         const response = await fetch(
-          `https://hms-backend-d7jp.onrender.com/hospital/findHospital/${hospitalId}`
+          `${backendUrl}/hospital/findHospital/${hospitalId}`
         );
         if (!response.ok) throw new Error("Failed to fetch hospital data");
 

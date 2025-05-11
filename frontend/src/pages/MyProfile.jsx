@@ -14,6 +14,7 @@ const MyProfile = () => {
     // dob: '2000-01-20',
     // age: 25,
   });
+  const backendUrl = import.meta.env.VITE_BACKEND_URL
 
   const [isEdit, setIsEdit] = useState(false);
   const [data, setData] = useState({});
@@ -51,7 +52,7 @@ const MyProfile = () => {
     try {
       const token = localStorage.getItem('authToken');
       const res = await axios.post(
-        'https://hms-backend-d7jp.onrender.com/patient/updateUserImage',
+        `${backendUrl}/patient/updateUserImage`,
         { imageUrl },
         {
           headers: {
@@ -93,7 +94,7 @@ const MyProfile = () => {
     try {
       const token = localStorage.getItem('authToken');
 
-      const res = await axios.post('https://hms-backend-d7jp.onrender.com/patient/updateUserDetails', {
+      const res = await axios.post(`${backendUrl}/patient/updateUserDetails`, {
         email: userData.email,
         phone: userData.phone,
         gender: userData.gender,
@@ -122,7 +123,7 @@ const MyProfile = () => {
       try {
         const token = localStorage.getItem('authToken'); // or however you store it
 
-        const res = await axios.get('https://hms-backend-d7jp.onrender.com/patient/getUserDetailsWhileLogin', {
+        const res = await axios.get(`${backendUrl}/patient/getUserDetailsWhileLogin`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },

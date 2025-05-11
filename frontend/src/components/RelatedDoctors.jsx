@@ -6,6 +6,7 @@ const RelatedDoctors = ({ specialty, doctorId, hospitalId }) => {
   const [relDoc, setRelDocs] = useState([]);
   const [loading, setLoading] = useState(false);
   const [empty, setEmpty] = useState(false);
+  const backendUrl = import.meta.env.VITE_BACKEND_URL
 
   useEffect(() => {
     const controller = new AbortController();
@@ -18,7 +19,7 @@ const RelatedDoctors = ({ specialty, doctorId, hospitalId }) => {
       setEmpty(false);
 
       try {
-        const response = await fetch("https://hms-backend-d7jp.onrender.com/doctors/getDoctors/related", {
+        const response = await fetch(`${backendUrl}/doctors/getDoctors/related`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",

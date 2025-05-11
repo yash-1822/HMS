@@ -9,6 +9,7 @@ const HospitalBody = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const [isAuthenticated, setIsAuthenticated] = useState(null);
+  const backendUrl = import.meta.env.VITE_BACKEND_URL
 
   useEffect(() => {
     const verifyToken = async () => {
@@ -20,7 +21,7 @@ const HospitalBody = () => {
           throw new Error("Token not found");
         }
 
-        const response = await fetch("https://hms-backend-d7jp.onrender.com/patient/verify-token", {
+        const response = await fetch(`${backendUrl}/patient/verify-token`, {
           method: "GET",
           headers: {
             Authorization: `Bearer ${token}`, // ✅ Send token via Authorization header

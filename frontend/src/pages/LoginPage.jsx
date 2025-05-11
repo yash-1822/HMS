@@ -11,6 +11,7 @@ export default function LoginPage() {
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
   const redirectPath = queryParams.get("redirect") || "/";
+  const backendUrl = import.meta.env.VITE_BACKEND_URL
 
   const [formData, setFormData] = useState({ email: "", password: "" });
 
@@ -22,7 +23,7 @@ export default function LoginPage() {
     e.preventDefault();
 
     try {
-      const response = await fetch("https://hms-backend-d7jp.onrender.com/patient/login", {
+      const response = await fetch(`${backendUrl}/patient/login`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

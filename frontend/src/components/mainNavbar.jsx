@@ -34,7 +34,7 @@ const locationOptions = [
 
 const Navbar = ({ setSearchQuery, searchQuery, city,setCity }) => {
   const navigate = useNavigate();
-
+  const backendUrl = import.meta.env.VITE_BACKEND_URL
   console.log("city is", city);
 
   const [isProfileOpen, setIsProfileOpen] = useState(false);
@@ -64,7 +64,7 @@ const Navbar = ({ setSearchQuery, searchQuery, city,setCity }) => {
 
   const handleLogout = async () => {
     try {
-      const response = await fetch("https://hms-backend-d7jp.onrender.com/patient/logout", {
+      const response = await fetch(`${backendUrl}/patient/logout`, {
         credentials: "include",
         method: "POST",
       });
@@ -88,7 +88,7 @@ const Navbar = ({ setSearchQuery, searchQuery, city,setCity }) => {
   useEffect(() => {
     const checkAuth = async () => {
       try {
-        const response = await fetch("https://hms-backend-d7jp.onrender.com/patient/verify-token", {
+        const response = await fetch(`${backendUrl}/patient/verify-token`, {
           credentials: "include",
         });
 
