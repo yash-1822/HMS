@@ -48,7 +48,7 @@ const MyAppointments = () => {
       try {
         const token = localStorage.getItem('authToken'); // or however you store it
 
-        const res = await axios.get('http://localhost:8000/patient/get-appointments', {
+        const res = await axios.get('https://hms-backend-d7jp.onrender.com/patient/get-appointments', {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -67,7 +67,7 @@ const MyAppointments = () => {
   const handleCancel = async (appointmentId) => {
     try {
       const token = localStorage.getItem('authToken');
-      await axios.delete(`http://localhost:8000/patient/cancel-appointment/${appointmentId}`, {
+      await axios.delete(`https://hms-backend-d7jp.onrender.com/patient/cancel-appointment/${appointmentId}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },

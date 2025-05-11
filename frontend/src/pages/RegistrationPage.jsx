@@ -130,7 +130,7 @@
 //     setError(""); // Clear previous errors
 
     // try {
-    //   const response = await fetch("http://localhost:8000/patient/register", {
+    //   const response = await fetch("https://hms-backend-d7jp.onrender.com/patient/register", {
     //     method: "POST",
     //     headers: {
     //       "Content-Type": "application/json",
@@ -359,7 +359,7 @@ export default function Registration() {
 
       console.log("Form Submitted Successfully", formData);
       try {
-        const response = await fetch("http://localhost:8000/patient/register", {
+        const response = await fetch("https://hms-backend-d7jp.onrender.com/patient/register", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",

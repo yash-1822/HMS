@@ -51,7 +51,7 @@ const MyProfile = () => {
     try {
       const token = localStorage.getItem('authToken');
       const res = await axios.post(
-        'http://localhost:8000/patient/updateUserImage',
+        'https://hms-backend-d7jp.onrender.com/patient/updateUserImage',
         { imageUrl },
         {
           headers: {
@@ -93,7 +93,7 @@ const MyProfile = () => {
     try {
       const token = localStorage.getItem('authToken');
 
-      const res = await axios.post('http://localhost:8000/patient/updateUserDetails', {
+      const res = await axios.post('https://hms-backend-d7jp.onrender.com/patient/updateUserDetails', {
         email: userData.email,
         phone: userData.phone,
         gender: userData.gender,
@@ -122,7 +122,7 @@ const MyProfile = () => {
       try {
         const token = localStorage.getItem('authToken'); // or however you store it
 
-        const res = await axios.get('http://localhost:8000/patient/getUserDetailsWhileLogin', {
+        const res = await axios.get('https://hms-backend-d7jp.onrender.com/patient/getUserDetailsWhileLogin', {
           headers: {
             Authorization: `Bearer ${token}`,
           },

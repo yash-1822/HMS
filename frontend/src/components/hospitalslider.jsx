@@ -45,7 +45,7 @@ const HospitalSlider = ({ selectedBodyPart }) => {
           cityParam = 'vijayawada'
         }
       
-        const response = await fetch(`http://localhost:8000/hospital/hospitals/${cityParam}`);
+        const response = await fetch(`https://hms-backend-d7jp.onrender.com/hospital/hospitals/${cityParam}`);
         const data = await response.json();
         setHospitals(data);
       } catch (error) {

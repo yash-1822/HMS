@@ -20,7 +20,7 @@
 //     e.preventDefault(); // Prevent default form submission
 
 //     try {
-//       const response = await fetch("http://localhost:8000/patient/login", {
+//       const response = await fetch("https://hms-backend-d7jp.onrender.com/patient/login", {
 //         method: "POST",
 //         headers: { "Content-Type": "application/json" },
 //         body: JSON.stringify(formData),
@@ -141,7 +141,7 @@
 //     e.preventDefault();
 
 //     try {
-//       const response = await fetch("http://localhost:8000/patient/login", {
+//       const response = await fetch("https://hms-backend-d7jp.onrender.com/patient/login", {
 //         credentials:'include',
 //         method: "POST",
 //         headers: { "content-Type": "application/json" },
@@ -275,7 +275,7 @@
 //     e.preventDefault();
 
 //     try {
-//       const response = await fetch("http://localhost:8000/patient/login", {
+//       const response = await fetch("https://hms-backend-d7jp.onrender.com/patient/login", {
 //         credentials: "include",
 //         method: "POST",
 //         headers: { "Content-Type": "application/json" },
@@ -407,7 +407,7 @@ export default function LoginPage() {
     e.preventDefault();
 
     try {
-      const response = await fetch("http://localhost:8000/patient/login", {
+      const response = await fetch("https://hms-backend-d7jp.onrender.com/patient/login", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

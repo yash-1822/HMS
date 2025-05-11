@@ -11,7 +11,7 @@
 //     // useEffect(() => {
 //     //     const fetchDoctors = async () => {
 //     //         try {
-//     //             const response = await fetch("http://localhost:8000/doctors/getAllDoctors"); // Adjust if backend URL differs
+//     //             const response = await fetch("https://hms-backend-d7jp.onrender.com/doctors/getAllDoctors"); // Adjust if backend URL differs
 //     //             if (!response.ok) throw new Error("Failed to fetch doctors");
         
 //     //             const data = await response.json();
@@ -31,7 +31,7 @@
 //     useEffect(() => {
 //         const fetchDoctors = async () => {
 //             try {
-//                 const response = await fetch(`http://localhost:8000/doctors/getDoctorsByHospitalId/${hospitalId}`); // Adjust if backend URL differs
+//                 const response = await fetch(`https://hms-backend-d7jp.onrender.com/doctors/getDoctorsByHospitalId/${hospitalId}`); // Adjust if backend URL differs
 //                 if (!response.ok) throw new Error("Failed to fetch doctors");
         
 //                 const data = await response.json();
@@ -103,7 +103,7 @@ const TopDoctors = ({ hospitalId }) => {
         const fetchDoctors = async () => {
             try {
                 setLoading(true);
-                const response = await fetch(`http://localhost:8000/doctors/getDoctorsByHospitalId/${hospitalId}`);
+                const response = await fetch(`https://hms-backend-d7jp.onrender.com/doctors/getDoctorsByHospitalId/${hospitalId}`);
                 if (!response.ok) throw new Error("Failed to fetch doctors");
 
                 const data = await response.json();

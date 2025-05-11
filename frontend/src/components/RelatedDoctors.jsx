@@ -18,7 +18,7 @@ const RelatedDoctors = ({ specialty, doctorId, hospitalId }) => {
       setEmpty(false);
 
       try {
-        const response = await fetch("http://localhost:8000/doctors/getDoctors/related", {
+        const response = await fetch("https://hms-backend-d7jp.onrender.com/doctors/getDoctors/related", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",

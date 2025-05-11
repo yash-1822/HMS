@@ -15,7 +15,7 @@ const DoctorsSection = ({ selectedBodyPart, searchQuery, city }) => {
       try {
         console.log("city from doctors section is", city);
         const cityParam = city && city.trim() !== "" ? city : "all";
-        const response = await fetch(`http://localhost:8000/doctors/getDoctorsByCity/${cityParam}`);
+        const response = await fetch(`https://hms-backend-d7jp.onrender.com/doctors/getDoctorsByCity/${cityParam}`);
         const data = await response.json();
         setDoctors(data);
       } catch (error) {

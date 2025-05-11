@@ -26,7 +26,7 @@ const Doctors = () => {
           throw new Error("Token not found");
         }
 
-        const response = await fetch("http://localhost:8000/patient/verify-token", {
+        const response = await fetch("https://hms-backend-d7jp.onrender.com/patient/verify-token", {
           method: "GET",
           headers: {
             Authorization: `Bearer ${token}`, // ✅ Send token via Authorization header
@@ -54,7 +54,7 @@ const Doctors = () => {
   useEffect(() => {
     const fetchDoctors = async () => {
       try {
-        const response = await fetch(`http://localhost:8000/doctors/getDoctorsByHospitalId/${hospitalId}`);
+        const response = await fetch(`https://hms-backend-d7jp.onrender.com/doctors/getDoctorsByHospitalId/${hospitalId}`);
         if (!response.ok) throw new Error("Failed to fetch doctors");
 
         const data = await response.json();
@@ -68,7 +68,7 @@ const Doctors = () => {
     const fetchSpecialities = async () => {
       try {
         console.log("function is called")
-        const response = await fetch(`http://localhost:8000/hospital/getUniqueSpecialities/${hospitalId}`, {
+        const response = await fetch(`https://hms-backend-d7jp.onrender.com/hospital/getUniqueSpecialities/${hospitalId}`, {
           method: "GET",
           headers: {
             "Authorization": `Bearer ${token}`,
@@ -241,7 +241,7 @@ export default Doctors;
 //   useEffect(() => {
 //     const verifyToken = async () => {
 //       try {
-//         const response = await fetch("http://localhost:8000/patient/verify-token", {
+//         const response = await fetch("https://hms-backend-d7jp.onrender.com/patient/verify-token", {
 //           method: "GET",
 //           credentials: "include",
 //         });
@@ -264,7 +264,7 @@ export default Doctors;
 //   useEffect(() => {
 //     const fetchDoctors = async () => {
 //       try {
-//         const response = await fetch("http://localhost:8000/doctors/getAllDoctors");
+//         const response = await fetch("https://hms-backend-d7jp.onrender.com/doctors/getAllDoctors");
 //         if (!response.ok) throw new Error("Failed to fetch doctors");
 //         const data = await response.json();
 //         setDoctors(data);
@@ -276,7 +276,7 @@ export default Doctors;
 
 //     const fetchSpecialities = async () => {
 //       try {
-//         const response = await fetch("http://localhost:8000/doctors/getUniqueSpecialities", {
+//         const response = await fetch("https://hms-backend-d7jp.onrender.com/doctors/getUniqueSpecialities", {
 //           method: "GET",
 //           credentials: "include",
 //         });

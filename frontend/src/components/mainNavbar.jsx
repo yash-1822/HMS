@@ -64,7 +64,7 @@ const Navbar = ({ setSearchQuery, searchQuery, city,setCity }) => {
 
   const handleLogout = async () => {
     try {
-      const response = await fetch("http://localhost:8000/patient/logout", {
+      const response = await fetch("https://hms-backend-d7jp.onrender.com/patient/logout", {
         credentials: "include",
         method: "POST",
       });
@@ -88,7 +88,7 @@ const Navbar = ({ setSearchQuery, searchQuery, city,setCity }) => {
   useEffect(() => {
     const checkAuth = async () => {
       try {
-        const response = await fetch("http://localhost:8000/patient/verify-token", {
+        const response = await fetch("https://hms-backend-d7jp.onrender.com/patient/verify-token", {
           credentials: "include",
         });
 

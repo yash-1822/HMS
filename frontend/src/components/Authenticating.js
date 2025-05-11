@@ -8,7 +8,7 @@
 //   useEffect(() => {
 //     const verifyToken = async () => {
 //       try {
-//         const response = await fetch("http://localhost:8000/patient/verify-token", {
+//         const response = await fetch("https://hms-backend-d7jp.onrender.com/patient/verify-token", {
 //           credentials: "include", // Important for cookies
 //         });
 

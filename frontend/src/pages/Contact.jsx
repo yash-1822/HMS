@@ -14,7 +14,7 @@ const Contact = () => {
 useEffect(() => {
       const verifyToken = async () => {
         try {
-          // const response = await fetch("http://localhost:8000/patient/verify-token", {
+          // const response = await fetch("https://hms-backend-d7jp.onrender.com/patient/verify-token", {
           //   method: "GET",
           //   credentials: "include", // Ensures cookies are sent
           // });
@@ -26,7 +26,7 @@ useEffect(() => {
           throw new Error("Token not found");
         }
 
-        const response = await fetch("http://localhost:8000/patient/verify-token", {
+        const response = await fetch("https://hms-backend-d7jp.onrender.com/patient/verify-token", {
           method: "GET",
           headers: {
             Authorization: `Bearer ${token}`, // ✅ Send token via Authorization header
@@ -55,7 +55,7 @@ useEffect(() => {
     // useEffect(() => {
     //   const verifyToken = async () => {
     //     try {
-    //       const response = await fetch("http://localhost:8000/patient/verify-token", {
+    //       const response = await fetch("https://hms-backend-d7jp.onrender.com/patient/verify-token", {
     //         method:"get",
     //         credentials: "include", // Ensures cookies are sent
     //       });
