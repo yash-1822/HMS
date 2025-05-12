@@ -11,6 +11,7 @@ function App() {
   const location = useLocation();
   const [searchQuery, setSearchQuery] = useState("");
   const [city, setCity] = useState(localStorage.getItem("userCity") || "");
+  const [data,setData] = useState({});
 
   // Determine page type
   const isHospitalPage = location.pathname.startsWith("/hospital/");
@@ -26,22 +27,8 @@ function App() {
   }, []);
 
 
-  // return (
-  //   <>
-  //     <ToastContainer position="top-center" />
 
-  //     {/* Show Navbar if not on login/register pages */}
-  //     {!isLoginOrRegister && (isHospitalPage ? <HospitalNavbar /> : <Navbar setSearchQuery={setSearchQuery} searchQuery={searchQuery} city={city} setCity={setCity}/>)}
 
-  //     {/* Main content */}
-  //     <main className="">
-  //       <Outlet context={{ searchQuery,city }}/>
-  //     </main>
-
-  //     {/* Show Footer if not on login/register pages */}
-  //     {!isLoginOrRegister && <Footer />}
-  //   </>
-  // );
 
 
   return (

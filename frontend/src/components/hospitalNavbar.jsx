@@ -4,6 +4,7 @@ import { NavLink, useNavigate, useParams } from 'react-router-dom';
 import { FaHospital } from 'react-icons/fa';
 import { HiOutlineMenuAlt3 } from 'react-icons/hi';
 import { IoClose } from 'react-icons/io5';
+import axios from 'axios'
 
 const Navbar = () => {
   const navigate = useNavigate();
@@ -11,7 +12,33 @@ const Navbar = () => {
   const [showMenu, setShowMenu] = useState(false);
   const [token, setToken] = useState(true);
   const [dropdownOpen, setDropdownOpen] = useState(false);
+  const [data,setData] = useState({});
   const dropdownRef = useRef(null);
+  const backendUrl = import.meta.env.VITE_BACKEND_URL
+
+  
+  useEffect(() => {
+    const fetchDetails = async () => {
+      try {
+        const token = localStorage.getItem('authToken'); // or however you store it
+
+        const res = await axios.get(`${backendUrl}/patient/getUserDetailsWhileLogin`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+
+        setData(res.data);
+      } catch (error) {
+        console.error('Error fetching appointments:', error);
+      }
+    };
+
+    fetchDetails();
+  }, []);
+
+
+  console.log("deatils from the hospitalNavbar.jsx is",data);
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -118,8 +145,8 @@ const Navbar = () => {
               onClick={() => setDropdownOpen((prev) => !prev)}
             >
               <img
-                className="w-8 rounded-full"
-                src={assets.profile_pic}
+                className="w-8 h-8 rounded-full object-cover"
+                src={data?.imageUrl || assets.profile_pic}
                 alt="Profile"
               />
               <img
