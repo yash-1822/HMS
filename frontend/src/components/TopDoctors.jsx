@@ -36,7 +36,10 @@ const TopDoctors = ({ hospitalId }) => {
                     <div className="animate-spin rounded-full h-12 w-12 border-t-4 border-green-600 border-opacity-30"></div>
                 </div>
             ) : (
-                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 mt-6 w-full max-w-6xl cursor-pointer">
+                // <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 mt-6 w-full max-w-6xl cursor-pointer">
+                // <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8 mt-6 w-full max-w-6xl cursor-pointer">
+                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 mt-6 w-full max-w-6xl mx-auto place-items-center">
+
                     {doctors.slice(0, 8).map((item, index) => (
                         <div 
                             onClick={() => navigate(`/hospital/${hospitalId}/doctors/${item._id}`)}
