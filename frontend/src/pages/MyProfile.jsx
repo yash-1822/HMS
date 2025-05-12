@@ -4,16 +4,7 @@ import axios from 'axios';
 
 
 const MyProfile = () => {
-  const [userData, setUserData] = useState({
-    // name: "basha",
-    // image: assets.user_icon, // Use user icon instead of profile_pic
-    // email: 'example@gmail.com',
-    // phone: '+91 1234567890',
-    // address: 'srikakulam',
-    // gender: 'Male',
-    // dob: '2000-01-20',
-    // age: 25,
-  });
+  const [userData, setUserData] = useState({});
   const backendUrl = import.meta.env.VITE_BACKEND_URL
 
   const [isEdit, setIsEdit] = useState(false);
@@ -227,7 +218,7 @@ const MyProfile = () => {
                   value={userData.address}
                   onChange={(e) => setUserData(prev => ({
                     ...prev,
-                    address: { ...prev.address, line1: e.target.value }
+                    address: e.target.value
                   }))}
                   className="w-full border border-green-300 px-3 py-2 rounded-md"
                 />
