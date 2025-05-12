@@ -411,7 +411,7 @@ console.log("userdata is:",userData)
         <div className="p-[11px] md:p-6">
           <h2 className="lg:text-2xl md:text-xl text-md text-center font-semibold text-gray-900 mb-4 ">Select Appointment Date</h2>
 
-          <div className="flex lg:justify-center gap-4 overflow-x-auto mb-6 pb-4 scrollbar-hide">
+          <div className="flex justify-center gap-4 overflow-x-auto mb-6 pb-4 scrollbar-hide">
             {availableDays.map((item, index) => {
               const availabilityInfo = docInfo.availability.find(avail => avail.day === item.day);
               const isUnavailable = availabilityInfo ? !availabilityInfo.available : false;

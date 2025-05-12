@@ -26,22 +26,51 @@ function App() {
   }, []);
 
 
+  // return (
+  //   <>
+  //     <ToastContainer position="top-center" />
+
+  //     {/* Show Navbar if not on login/register pages */}
+  //     {!isLoginOrRegister && (isHospitalPage ? <HospitalNavbar /> : <Navbar setSearchQuery={setSearchQuery} searchQuery={searchQuery} city={city} setCity={setCity}/>)}
+
+  //     {/* Main content */}
+  //     <main className="">
+  //       <Outlet context={{ searchQuery,city }}/>
+  //     </main>
+
+  //     {/* Show Footer if not on login/register pages */}
+  //     {!isLoginOrRegister && <Footer />}
+  //   </>
+  // );
+
+
   return (
-    <>
+    <div className="min-h-screen flex flex-col">
       <ToastContainer position="top-center" />
-
-      {/* Show Navbar if not on login/register pages */}
-      {!isLoginOrRegister && (isHospitalPage ? <HospitalNavbar /> : <Navbar setSearchQuery={setSearchQuery} searchQuery={searchQuery} city={city} setCity={setCity}/>)}
-
-      {/* Main content */}
-      <main className="">
-        <Outlet context={{ searchQuery,city }}/>
+  
+      {/* Conditional Navbar */}
+      {!isLoginOrRegister &&
+        (isHospitalPage ? (
+          <HospitalNavbar />
+        ) : (
+          <Navbar
+            setSearchQuery={setSearchQuery}
+            searchQuery={searchQuery}
+            city={city}
+            setCity={setCity}
+          />
+        ))}
+  
+      {/* Main content grows to fill space */}
+      <main className="flex-grow">
+        <Outlet context={{ searchQuery, city }} />
       </main>
-
-      {/* Show Footer if not on login/register pages */}
+  
+      {/* Conditional Footer */}
       {!isLoginOrRegister && <Footer />}
-    </>
+    </div>
   );
+  
 }
 
 export default App;

@@ -32,7 +32,7 @@ const locationOptions = [
   "West Godavari",
 ];
 
-const Navbar = ({ setSearchQuery, searchQuery, city,setCity }) => {
+const Navbar = ({ setSearchQuery, searchQuery, city, setCity }) => {
   const navigate = useNavigate();
   const backendUrl = import.meta.env.VITE_BACKEND_URL
   console.log("city is", city);
@@ -45,9 +45,7 @@ const Navbar = ({ setSearchQuery, searchQuery, city,setCity }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [selectedLocation, setSelectedLocation] = useState("");
   const [isLocationDropdownOpen, setIsLocationDropdownOpen] = useState(false);
-  // const prioritizedLocations = city
-  //   ? [city, ...locationOptions.filter((loc) => loc !== city)]
-  //   : locationOptions;
+
   const prioritizedLocations = (() => {
     if (!city) return locationOptions;
     if (locationOptions.includes(city)) {
@@ -58,54 +56,17 @@ const Navbar = ({ setSearchQuery, searchQuery, city,setCity }) => {
   })();
 
 
-  console.log("locations are:",prioritizedLocations);
-  
+  console.log("locations are:", prioritizedLocations);
+
 
 
   const handleLogout = async () => {
-    try {
-      const response = await fetch(`${backendUrl}/patient/logout`, {
-        credentials: "include",
-        method: "POST",
-      });
-
-      if (!response.ok) {
-        throw new Error("Logout failed. Please try again.");
-      }
-
-      document.cookie = "token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
-      toast.success("Logout successful!", {
-        onClose: () => {
-          setIsAuthenticated(false);
-          navigate("/login");
-        },
-      });
-    } catch (err) {
-      toast.error(err.message || "Something went wrong. Please try again.");
-    }
+    console.log("localStorage", localStorage.getItem("authToken"))
+    localStorage.removeItem("authToken");
+    setIsAuthenticated(false);
+    navigate("/");
   };
 
-  useEffect(() => {
-    const checkAuth = async () => {
-      try {
-        const response = await fetch(`${backendUrl}/patient/verify-token`, {
-          credentials: "include",
-        });
-
-        if (response.ok) {
-          const data = await response.json();
-          setIsAuthenticated(true);
-        } else {
-          setIsAuthenticated(false);
-        }
-      } catch (error) {
-        console.error("Authentication check failed:", error);
-        setIsAuthenticated(false);
-      }
-    };
-
-    // checkAuth();
-  }, []);
 
   useEffect(() => {
     const handleResize = () => {
@@ -115,6 +76,13 @@ const Navbar = ({ setSearchQuery, searchQuery, city,setCity }) => {
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
   }, []);
+
+
+  useEffect(() => {
+    const token = localStorage.getItem("authToken");
+    setIsAuthenticated(!!token);
+  }, []);
+
 
   const handleVoiceSearch = () => {
     if (!("webkitSpeechRecognition" in window || "SpeechRecognition" in window)) {
@@ -140,7 +108,7 @@ const Navbar = ({ setSearchQuery, searchQuery, city,setCity }) => {
 
   const handleLocationChange = (location) => {
     setSelectedLocation(location);
-    localStorage.setItem("userCity", location); 
+    localStorage.setItem("userCity", location);
     setCity(location);
     setIsLocationDropdownOpen(false);
   };
@@ -228,16 +196,6 @@ const Navbar = ({ setSearchQuery, searchQuery, city,setCity }) => {
                 {isLocationDropdownOpen && (
                   <div className="absolute mt-2 left-1/2 transform -translate-x-1/2 bg-white shadow rounded-md text-black">
                     <ul className="space-y-2 p-2">
-                      {/* {sortedLocationOptions.map((loc, idx) => (
-                        <li
-                          key={idx}
-                          onClick={() => handleLocationChange(loc)}
-                          className="cursor-pointer hover:bg-gray-100 px-2 py-1"
-                        >
-                          {loc}
-                        </li>
-                      ))} */}
-
                       {prioritizedLocations.map((loc, idx) => (
                         <li
                           key={idx}
@@ -263,24 +221,37 @@ const Navbar = ({ setSearchQuery, searchQuery, city,setCity }) => {
                 </button>
                 {isProfileOpen && (
                   <div className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 text-gray-900">
-                    <a href="/myProfile" className="flex items-center px-4 py-2 text-sm hover:bg-gray-200">
-                      <FaUser className="mr-2" /> My Profile
-                    </a>
-                    <a href="/myAppointments" className="flex items-center px-4 py-2 text-sm hover:bg-gray-200">
-                      <FaCalendarAlt className="mr-2" /> My Appointments
-                    </a>
+
+
+                    {isAuthenticated && (
+                      <>
+                        <a href="/myProfile" className="flex items-center px-4 py-2 text-sm hover:bg-gray-200">
+                          <FaUser className="mr-2" /> My Profile
+                        </a>
+                        <a href="/myAppointments" className="flex items-center px-4 py-2 text-sm hover:bg-gray-200">
+                          <FaCalendarAlt className="mr-2" /> My Appointments
+                        </a>
+                      </>
+                    )}
+
+
                     {isAuthenticated ? (
                       <button
                         onClick={handleLogout}
-                        className="flex w-full items-center px-4 py-2 text-sm hover:bg-gray-200"
+                        className="flex items-center px-4 py-2 text-sm hover:bg-gray-200 w-full"
                       >
                         <FaSignOutAlt className="mr-2" /> Logout
                       </button>
                     ) : (
-                      <a href="/login" className="flex items-center px-4 py-2 text-sm hover:bg-gray-200">
+                      <button
+                        onClick={() => navigate("/login")}
+                        className="flex items-center px-4 py-2 text-sm hover:bg-gray-200 w-full"
+                      >
                         <FaSignOutAlt className="mr-2" /> Login
-                      </a>
+                      </button>
                     )}
+
+
                   </div>
                 )}
               </div>
@@ -323,7 +294,7 @@ const Navbar = ({ setSearchQuery, searchQuery, city,setCity }) => {
         <div className="fixed inset-0">
           <div className="fixed left-0 top-0 w-3/4 max-w-xs h-full bg-white text-gray-900 shadow-lg transform transition-transform">
             <div className="p-5 flex justify-between items-center bg-green-600 text-white">
-              <h2 className="text-xl font-bold flex items-center space-x-2">
+              <h2 className="text-xl font-bold flex items-center space-x-2" >
                 <FaHospital size={25} />
                 <span>MediCare</span>
               </h2>
@@ -333,22 +304,43 @@ const Navbar = ({ setSearchQuery, searchQuery, city,setCity }) => {
             </div>
 
             <div className="p-5 space-y-4">
-              <a href="/myProfile" className="flex items-center space-x-2 text-lg hover:text-green-600">
-                <FaUser />
-                <span>My Profile</span>
-              </a>
-              <a href="/myAppointments" className="flex items-center space-x-2 text-lg hover:text-green-600">
-                <FaCalendarAlt />
-                <span>My Appointments</span>
-              </a>
-              <a href="/login" className="flex items-center space-x-2 text-lg hover:text-green-600">
-                <FaSignOutAlt />
-                <span>Login</span>
-              </a>
-              <a href="/about" className="flex items-center space-x-2 text-lg hover:text-green-600">
+
+
+              {isAuthenticated && (
+                <>
+                  <a href="/myProfile" className="flex items-center space-x-2 text-lg hover:text-green-600">
+                    <FaUser />
+                    <span>My Profile</span>
+                  </a>
+                  <a href="/myAppointments" className="flex items-center space-x-2 text-lg hover:text-green-600">
+                    <FaCalendarAlt />
+                    <span>My Appointments</span>
+                  </a>
+                </>
+              )}
+
+
+              {isAuthenticated ? (
+                <button
+                  onClick={handleLogout}
+                  className="flex items-center px-[2px] text-lg py-2  hover:bg-gray-200 w-full"
+                >
+                  <FaSignOutAlt className="mr-2 text-lg" /> Logout
+                </button>
+              ) : (
+                <button
+                  onClick={() => navigate("/login")}
+                  className="flex items-center px-[2px] text-lg py-2  hover:bg-gray-200 w-full"
+                >
+                  <FaSignOutAlt className="mr-2 text-lg" /> Login
+                </button>
+              )}
+
+
+              {/* <a href="/about" className="flex items-center space-x-2 text-lg hover:text-green-600">
                 <FaInfoCircle />
                 <span>About Us</span>
-              </a>
+              </a> */}
             </div>
           </div>
         </div>

@@ -26,6 +26,12 @@ const Navbar = () => {
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
+  const handleLogout = async () => {
+    console.log("localStorage", localStorage.getItem("authToken"))
+    localStorage.removeItem("authToken");
+    navigate("/");
+  };
+
   const navLinks = (
     <>
       <NavLink
@@ -143,9 +149,7 @@ const Navbar = () => {
                       My Appointments
                     </p>
                     <p
-                      onClick={() => {
-                        navigate('/')
-                      }}
+                      onClick={handleLogout}
                       className="hover:cursor-pointer text-green-700"
                     >
                       Logout
