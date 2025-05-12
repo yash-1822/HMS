@@ -277,7 +277,7 @@ const MyProfile = () => {
     <img
       src={userData.image}
       // alt="User Icon"
-      className="w-full h-full rounded-full shadow-md border-4 object-cover bg-green-600"
+      className="w-full h-full rounded-full shadow-md border-4 object-center bg-green-600"
     />
   </label>
 
